@@ -18,9 +18,9 @@ public class CustomArrayList <T>{
    }
 
    public T getItem(int index){
-       if(array[index] != null)
-           return array[index];
-       else throw new ArrayIndexOutOfBoundsException();
+       if(index < 0 || index >= size)
+           throw new ArrayIndexOutOfBoundsException();
+       else return array[index];
    }
 
     public int getSize(){
