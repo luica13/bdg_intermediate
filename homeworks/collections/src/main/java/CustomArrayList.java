@@ -70,9 +70,11 @@ public class CustomArrayList <T>{
         array = tempArray;
     }
 
-    public void print(){
+    @Override
+    public String toString(){
         for(int i = 0; i < size; i++)
             System.out.println(array[i]);
+        return "";
     }
 
     public static void main(String[] args) {
@@ -84,7 +86,7 @@ public class CustomArrayList <T>{
         list.add(45);
         list.add(2, 11);
         list.remove(4);
-        list.print();
+        System.out.println(list);
 
     }
 }
