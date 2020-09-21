@@ -30,9 +30,6 @@ public class CustomHashMap<K, V> {
         return key == null ? 0 : (h = key.hashCode()) ^ h >>> 16;
     }
 
-
-
-
     public CustomHashMap() {
         this(DEFAULT_INITIAL_CAPACITY);
     }
