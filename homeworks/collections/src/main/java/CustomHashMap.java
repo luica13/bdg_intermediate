@@ -1,4 +1,4 @@
-package main;
+package main.java;
 
 import java.io.Serializable;
 import java.util.*;
@@ -9,10 +9,9 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-//public class Main {
-//
-//
-//}
+
+
+
 
 public class CustomHashMap<K, V> {
 
@@ -23,7 +22,7 @@ public class CustomHashMap<K, V> {
 //    static final int UNTREEIFY_THRESHOLD = 6;
 //    static final int MIN_TREEIFY_CAPACITY = 64;
      LinkedList<Node>[] table;
-    int size;
+    //int size;
     int capacity;
 
     static final int hash(Object key) {
@@ -39,7 +38,7 @@ public class CustomHashMap<K, V> {
     }
 
     public CustomHashMap(int initCapacity) {
-        size = 0;
+        capacity = initCapacity;
         if (initCapacity < 0) {
             throw new IllegalArgumentException("Illegal initial capacity: " + initCapacity);
         } else {
@@ -56,9 +55,78 @@ public class CustomHashMap<K, V> {
     public V put(K key,V value)
     {
         int hash = hash(key);
-        int position = hash%
+        int position = position(hash);
+        int index = indexOf(key, position);
+        V retValue = null;
+        if(index >= 0) {
+            retValue = (V) table[position].get(index).getValue();
+            table[position].set(table[position].size()-1, new Node(hash, key, value));
+        }
+        else
+            table[position].add(new Node(hash, key, value));
+        return  retValue;
     }
 
+    public Node getNode(K key)
+    {
+        int hash = hash(key);
+        int position = position(hash);
+        int index = indexOf(key, position);
+        if(index < 0)
+            return null;
+        else
+            return table[position].get(index);
+    }
+
+
+
+    private boolean contains(K key, int index)
+    {
+        return indexOf(key, index)>=0;
+    }
+
+    public boolean contains(K key)
+    {
+        return contains(key,position(hash(key)));
+    }
+
+    private int position(int hash)
+    {
+        return hash%capacity;
+    }
+
+    public V remove(K key) {
+        Node<K, V> e;
+        int hash = hash(key);
+        int position = position(hash);
+        int index = indexOf(key,position);
+        V retvalue=null;
+        if (index >= 0)
+        {
+            retvalue = (V)table[position].get(index).getValue();
+        }
+        table[position].remove(index);
+        return retvalue;
+    }
+
+
+    private int indexOf(K key, int index)
+    {
+        if(key==null)
+        {
+            for (int i = 0; i < table[index].size(); i++) {
+                if (key == table[index].get(i).key)
+                    return i;
+            }
+
+            return -1;
+        }
+        for (int i = 0; i < table[index].size(); i++) {
+            if(key.equals(table[index].get(i).key))
+                return  i;
+        }
+        return -1;
+    }
 
 
 
@@ -68,7 +136,7 @@ public class CustomHashMap<K, V> {
         final K key;
         V value;
 
-        Node(int hash, K key, V value, CustomHashMap.Node<K, V> next) {
+        Node(int hash, K key, V value) {
             this.hash = hash;
             this.key = key;
             this.value = value;
