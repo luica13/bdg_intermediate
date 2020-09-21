@@ -23,10 +23,7 @@ public class CustomLinkedList<E> {
     }
 
     public boolean contains(Object o) {
-        if (indexOf(o) != -1) {
-            return true;
-        }
-        return false;
+        return indexOf(o) != -1;
     }
 
     public Object[] toArray() {
@@ -39,12 +36,12 @@ public class CustomLinkedList<E> {
     }
 
     public boolean add(E e) {
-        Node<E> lastElem = last;
-        last = new Node<>(lastElem, e, null);
-        if (lastElem == null) {
+        Node<E> lastNode = last;
+        last = new Node<>(lastNode, e, null);
+        if (lastNode == null) {
             first = last;
         } else {
-            lastElem.next = last;
+            lastNode.next = last;
         }
         size++;
         return true;
@@ -87,26 +84,26 @@ public class CustomLinkedList<E> {
 
     public void add(int index, E element) {
         checkIndexPosition(index);
-        Node<E> elem = findNode(index);
-        Node<E> elemPrevious = elem.prev;
-        Node<E> newNode = new Node<>(elemPrevious, element, elem);
-        elemPrevious.next = newNode;
-        elem.prev = newNode;
+        if (index == 0) {
+            addFirst(element);
+        } else if (index == size) {
+            addLast(element);
+        } else {
+            insertMiddle(index, element);
+        }
         size++;
     }
+
 
     public E remove(int index) {
         checkIndexPosition(index);
         Node<E> node = findNode(index);
         if (node == first) {
-            first = node.next;
-            first.prev = null;
+            removeFirst(node);
         } else if (node == last) {
-            last = node.prev;
-            last.next = null;
+            removeLast(node);
         } else {
-            node.prev.next = node.next;
-            node.next.prev = node.prev;
+            removeMiddle(node);
         }
         size--;
         return node.item;
@@ -165,6 +162,7 @@ public class CustomLinkedList<E> {
             this.next = next;
             this.prev = prev;
         }
+
     }
 
     private Node<E> findNode(int index) {
@@ -179,6 +177,39 @@ public class CustomLinkedList<E> {
                 elem = elem.prev;
         }
         return elem;
+    }
+
+    private void addFirst(E element) {
+        Node<E> oldFirstNode = first;
+        first = new Node<>(null, element, oldFirstNode);
+        oldFirstNode.prev = first;
+    }
+
+    private void addLast(E element) {
+        add(element);
+    }
+
+    private void removeFirst(Node<E> node) {
+        first = node.next;
+        first.prev = null;
+    }
+
+    private void removeLast(Node<E> node) {
+        last = node.prev;
+        last.next = null;
+    }
+
+    private void removeMiddle(Node<E> node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void insertMiddle(int index, E element) {
+        Node<E> elem = findNode(index);
+        Node<E> elemPrevious = elem.prev;
+        Node<E> newNode = new Node<>(elemPrevious, element, elem);
+        elemPrevious.next = newNode;
+        elem.prev = newNode;
     }
 
     private void checkIndexPosition(int index) {
