@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
-public abstract class SimpleHashSet implements SetInterface{
+public  class SimpleHashSet implements SetInterface{
     private static class Entry {
         Object key;
         Entry next;
@@ -203,4 +203,19 @@ public abstract class SimpleHashSet implements SetInterface{
 
     }
 
-}
+    public static void main(String[] args) {
+        SimpleHashSet hs = new SimpleHashSet(100);
+        hs.add(10);
+        hs.add("String");
+        hs.add(95);
+
+        System.out.println(hs);
+
+        hs.remove(10);
+        System.out.println(hs);
+
+        System.out.println(hs.contains(95));
+
+        }
+    }
+
