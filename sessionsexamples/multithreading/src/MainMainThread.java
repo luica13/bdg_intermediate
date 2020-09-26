@@ -1,22 +1,23 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Main {
+public class MainMainThread {
     public static AtomicInteger c = new AtomicInteger(0);
+
     public static void main(String[] args) {
         System.out.println("Main " + Thread.currentThread().getName());
 
         Counter counter = new Counter();
         //int counter = 0;
-        Thread runThread = new Thread(()-> {
+        Thread runThread = new Thread(() -> {
             System.out.println("Run thread " + Thread.currentThread().getName());
-            for(int i=0;i<1000;i++){
+            for (int i = 0; i < 1000; i++) {
                 counter.counter++;
                 c.incrementAndGet();
             }
         });
-        Thread runThread2 = new Thread(()-> {
+        Thread runThread2 = new Thread(() -> {
             System.out.println("Run thread " + Thread.currentThread().getName());
-            for(int i=0;i<1000;i++){
+            for (int i = 0; i < 1000; i++) {
                 counter.counter++;
                 c.incrementAndGet();
             }
@@ -34,6 +35,7 @@ public class Main {
         System.out.println(c);
     }
 }
+
 class Counter {
     public Integer counter = 0;
 
@@ -44,6 +46,7 @@ class Counter {
                 '}';
     }
 }
+
 class MyThread extends Thread {
     @Override
     public void run() {
