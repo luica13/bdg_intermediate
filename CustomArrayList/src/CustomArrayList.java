@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Stream;
 
 class ArrayListCustom<E> {
 
@@ -60,26 +61,25 @@ class ArrayListCustom<E> {
     }
 
 }
+    public class CustomArrayList {
 
-public class CustomArrayList {
+        public static void main(String... a) {
+            ArrayListCustom<Integer> list = new ArrayListCustom<>();
+            list.add(10);
+            list.add(2);
+            list.add(7);
+            list.add(9);
+            list.add(5);
+            list.add(8);
 
-    public static void main(String... a) {
-        ArrayListCustom<Integer> list = new ArrayListCustom<>();
-        list.add(10);
-        list.add(2);
-        list.add(7);
-        list.add(9);
-        list.add(5);
-        list.add(8);
+            list.printList();
+            System.out.println("\nElement at index in custom ArrayList " + 1 + " is " + list.get(1));
 
-        list.printList();
-        System.out.println("\nElement at index in custom ArrayList " + 1 + " is " + list.get(1));
+            System.out.println("Removed element " + list.remove(1));
 
-        System.out.println("Removed element "+ list.remove(1));
+            System.out.println("\nPrinting ArrayList again after removal at index 1");
 
-        System.out.println("\nPrinting ArrayList again after removal at index 1");
+            list.printList();
+        }
 
-        list.printList();
     }
-
-}
