@@ -1,5 +1,3 @@
-package main;
-
 public class CustomArrayList <T>{
    private T array[] ;
    private int capacity = 2;

@@ -1,5 +1,3 @@
-package main;
-
 class Node{
     int data;
     Node next;
