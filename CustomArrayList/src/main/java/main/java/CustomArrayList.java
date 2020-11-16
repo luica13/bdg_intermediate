@@ -1,3 +1,4 @@
+package main.java;
 import java.util.Arrays;
 
 class ArrayListCustom<E> {
@@ -8,11 +9,10 @@ class ArrayListCustom<E> {
 
     public ArrayListCustom() {
         elementData = new Object[INITIAL_CAPACITY];
-    }
-
+   }
     public ArrayListCustom(int capacity){
         elementData=new Object[capacity];
-    }
+   }
 
     public void add(E e) {
         if (size == elementData.length) {
@@ -28,7 +28,9 @@ class ArrayListCustom<E> {
         }
         return (E) elementData[index];
     }
-
+    public int getSize(){
+        return size;
+    }
     public Object remove(int index) {
 
         if (index < 0 || index >= size) {
@@ -41,7 +43,6 @@ class ArrayListCustom<E> {
             elementData[i] = elementData[i + 1];
         }
         size--;
-
         return removedElement;
     }
 
@@ -64,12 +65,10 @@ public class CustomArrayList {
     public static void main(String... a) {
         ArrayListCustom<Integer> list = new ArrayListCustom<>();
         list.add(10);
-        list.add(2);
-        list.add(7);
-        list.add(9);
         list.add(5);
-        list.add(8);
-
+        list.add(4);
+        list.add(2);
+        System.out.println(list.getSize());
         list.printList();
         System.out.println("\nElement at index in custom ArrayList " + 1 + " is " + list.get(1));
 
