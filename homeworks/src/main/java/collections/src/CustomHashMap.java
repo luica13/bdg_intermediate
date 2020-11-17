@@ -1,11 +1,16 @@
-package main;
+package collections.src;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 public class CustomHashMap<K, V> {
     private Entry<K, V>[] table;
     private int capacity;
+    private int entryCount;
 
     public CustomHashMap(int capacity) {
         this.capacity = capacity;
+        entryCount = 0;
     }
 
     public CustomHashMap() {
@@ -44,6 +49,7 @@ public class CustomHashMap<K, V> {
             }
             previous.next = newEntry;
         }
+        entryCount++;
     }
 
     public V get(K key) {
@@ -75,9 +81,11 @@ public class CustomHashMap<K, V> {
                 if (current.key.equals(Key)) {
                     if (previous == null) {
                         table[hash] = table[hash].next;
+                        entryCount--;
                         return true;
                     } else {
                         previous.next = current.next;
+                        entryCount--;
                         return true;
                     }
                 }
@@ -103,6 +111,10 @@ public class CustomHashMap<K, V> {
 
     }
 
+    public int size() {
+        return entryCount;
+    }
+
     static class Entry<K, V> {
         K key;
         V value;
@@ -118,28 +130,20 @@ public class CustomHashMap<K, V> {
     private int hash(Object key) {
         return Math.abs(key.hashCode()) % capacity;
     }
-}
 
-class CustomHashMapApp {
-    public static void main(String[] args) {
-        CustomHashMap<Integer, String> customHashMap = new CustomHashMap<>();
-        customHashMap.put(1, "one");
-        customHashMap.put(2, "two");
-        customHashMap.put(3, "three");
-        customHashMap.put(4, "four");
-        customHashMap.put(5, "five");
-        customHashMap.display();
-        System.out.println();
-        System.out.println();
-        customHashMap.put(5, "seven");
-        customHashMap.display();
-        System.out.println();
-        System.out.println();
-        System.out.println(customHashMap.get(4));
-        System.out.println();
-        System.out.println();
-        customHashMap.remove(4);
-        customHashMap.display();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CustomHashMap<?, ?> that = (CustomHashMap<?, ?>) o;
+        return capacity == that.capacity &&
+                Arrays.equals(table, that.table);
     }
 
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(capacity);
+        result = 31 * result + Arrays.hashCode(table);
+        return result;
+    }
 }
