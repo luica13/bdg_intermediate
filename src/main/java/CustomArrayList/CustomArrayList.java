@@ -63,7 +63,7 @@ public class CustomArrayList<E> implements Simple<E> {
     }
 
     public static void main(String[] args) {
-        Simple<String> strings = new CustomArrayList<>();
+        Simple<String> strings = new CustomArrayList<String>();
 
         strings.add("Yerevan");
         strings.add("Abovyan");
