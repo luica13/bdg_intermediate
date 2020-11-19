@@ -1,4 +1,4 @@
-package factory;
+package creation.factory;
 
 public abstract class CreditCard {
     protected double balance;

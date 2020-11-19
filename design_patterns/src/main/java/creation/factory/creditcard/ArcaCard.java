@@ -1,7 +1,7 @@
-package factory.creditcard;
+package creation.factory.creditcard;
 
-import factory.CreditCard;
-import factory.CreditCardType;
+import creation.factory.CreditCard;
+import creation.factory.CreditCardType;
 
 public class ArcaCard extends CreditCard {
     private double rate;

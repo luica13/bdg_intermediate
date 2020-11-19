@@ -1,4 +1,4 @@
-package factory;
+package creation.factory;
 
 public enum CreditCardType {
     MASTER_CARD("Master"),
