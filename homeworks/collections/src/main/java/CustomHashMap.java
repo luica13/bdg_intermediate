@@ -1,4 +1,4 @@
-package main.java;
+//package main;
 
 import java.io.Serializable;
 import java.util.*;
@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.nio.CharBuffer;
 import java.util.HashMap;
 import java.util.HashMap;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+//import java.util.stream.Collectors;
+//import java.util.stream.IntStream;
 
 
 
@@ -22,7 +22,7 @@ public class CustomHashMap<K, V> {
 //    static final int UNTREEIFY_THRESHOLD = 6;
 //    static final int MIN_TREEIFY_CAPACITY = 64;
      LinkedList<Node>[] table;
-    //int size;
+    transient int size;
     int capacity;
 
     static final int hash(Object key) {
@@ -47,6 +47,7 @@ public class CustomHashMap<K, V> {
         for (int i = 0; i < capacity; i++) {
             table[i] = new LinkedList<>();
         }
+        size = 0;
     }
 
     public V put(K key,V value)
@@ -59,8 +60,10 @@ public class CustomHashMap<K, V> {
             retValue = (V) table[position].get(index).getValue();
             table[position].set(table[position].size()-1, new Node(hash, key, value));
         }
-        else
+        else {
             table[position].add(new Node(hash, key, value));
+            size ++;
+        }
         return  retValue;
     }
 
@@ -89,7 +92,7 @@ public class CustomHashMap<K, V> {
 
     private int position(int hash)
     {
-        return hash%capacity;
+        return Math.abs(hash)%capacity;
     }
 
     public V remove(K key) {
@@ -101,8 +104,10 @@ public class CustomHashMap<K, V> {
         if (index >= 0)
         {
             retvalue = (V)table[position].get(index).getValue();
+            table[position].remove(index);
+            size--;
         }
-        table[position].remove(index);
+
         return retvalue;
     }
 
