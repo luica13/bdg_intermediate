@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/bdg_intermediate.iml" filepath="$PROJECT_DIR$/bdg_intermediate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bdg_intermediate.iml" filepath="$PROJECT_DIR$/.idea/bdg_intermediate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/homeworks/homeworks.iml" filepath="$PROJECT_DIR$/homeworks/homeworks.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sessionsexamples/sessionsexamples.iml" filepath="$PROJECT_DIR$/sessionsexamples/sessionsexamples.iml" />
     </modules>
   </component>
 </project>
