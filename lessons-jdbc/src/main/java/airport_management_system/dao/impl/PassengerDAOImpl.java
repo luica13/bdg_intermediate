@@ -171,17 +171,11 @@ public class PassengerDAOImpl implements PassengerDAO {
     @Override
     public void delete(long passengerId) {
         final String passQuery = "delete from passenger where id = ?";
-        final String addrQuery = "delete from address where id = ?";
         try (Connection con = DBConnector.getConnection();
              PreparedStatement stmt = con.prepareStatement(passQuery)) {
-            con.setAutoCommit(false);
             stmt.setLong(1, passengerId);
-
-            PreparedStatement stmt2 = con.prepareStatement(addrQuery);
-            stmt2.setLong(1, passengerId);
-            if (stmt2.executeUpdate() == 1 && stmt.executeUpdate() == 1)
+            if (stmt.executeUpdate() == 1)
                 System.out.printf("passenger by id:%d successfully deleted%n", passengerId);
-            con.commit();
         } catch (SQLException e) {
             System.err.printf("failed to delete passenger by id:%d: message:%s%n ", passengerId, e.getMessage());
         }
