@@ -208,19 +208,23 @@ public class TripDAOImpl implements TripDAO {
 
     @Override
     public Set<Trip> findTripsByPassengerId(long passengerId) {
-        final String query = "select trip.id as trip_id, c.id as company_id, name, founding_date, time_in, time_out," +
-                " from_city, to_city from trip inner join passengers_trips pt" +
+        final String query = "select trip.id as trip_id, c.id as company_id, c.name as comp_name, founding_date, time_in, time_out," +
+                " from_city, to_city, p.name as pass_name, p.phone, p.id as pass_id from trip inner join passengers_trips pt" +
                 " on trip.id = pt.trip_id and pt.passenger_id = ? " +
-                "left join company c on trip.id = c.id";
+                "inner join company c on trip.id = c.id inner join passenger p on pt.passenger_id = p.id";
         Set<Trip> passengerTrips = null;
-        Trip trip = null;
+        Trip trip;
+        Passenger passenger;
+        Company company;
         try (Connection con = DBConnector.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setLong(1, passengerId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                if (passengerTrips == null) passengerTrips = new HashSet<>();
-                Company company = new Company(rs.getString("name"), rs.getDate("founding_date").toLocalDate());
+                if (passengerTrips == null) {
+                    passengerTrips = new HashSet<>();
+                }
+                company = new Company(rs.getString("comp_name"), rs.getDate("founding_date").toLocalDate());
                 company.setId(rs.getLong("company_id"));
                 trip = new TripBuilder()
                         .company(company)
@@ -229,6 +233,11 @@ public class TripDAOImpl implements TripDAO {
                         .fromCity(rs.getString("from_city"))
                         .toCity(rs.getString("to_city"))
                         .build();
+                trip.setId(rs.getLong("trip_id"));
+                passenger = new Passenger(rs.getString("pass_name"), rs.getString("phone"), null);
+                passenger.setId(rs.getLong("pass_id"));
+                if (trip.getPassengers() == null) trip.setPassengers(new HashSet<>());
+                trip.getPassengers().add(passenger);
                 passengerTrips.add(trip);
             }
         } catch (SQLException e) {
