@@ -6,9 +6,4 @@ public interface PassengerTripService {
     void loadPassengersTripsInfoFromFileAndCreateAll(String path);
 
     boolean remove(long passengerId, long tripId);
-
-    boolean editPassengerId(long newPassengerId, long tripId);
-
-    boolean editTripId(long passengerId, long newTripId);
-
 }

@@ -39,15 +39,4 @@ public class PassengerTripServiceImpl implements PassengerTripService {
     public boolean remove(long passengerId, long tripId) {
         return passengerTripDAO.delete(passengerId, tripId);
     }
-
-    @Override
-    public boolean editPassengerId(long newPassengerId, long tripId) {
-        return passengerTripDAO.updatePassengerByTripId(newPassengerId, tripId);
-    }
-
-    @Override
-    public boolean editTripId(long passengerId, long newTripId) {
-        return passengerTripDAO.updateTripByPassengerId(passengerId, newTripId);
-    }
-
 }

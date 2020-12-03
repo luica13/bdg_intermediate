@@ -42,36 +42,6 @@ public class PassengerTripDAOImpl implements PassengerTripDAO {
     }
 
     @Override
-    public boolean updatePassengerByTripId(long updatePassengerId, long tripId) {
-        final String query = "update passengers_trips set passenger_id = ? where trip_id = ?;";
-        try (Connection con = DBConnector.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setLong(1, updatePassengerId);
-            stmt.setLong(2, tripId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("failed to save data: message: " + e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean updateTripByPassengerId(long passengerId, long updateTripId) {
-        final String query = "update passengers_trips set trip_id = ? where passenger_id = ?;";
-        try (Connection con = DBConnector.getConnection();
-             PreparedStatement stmt = con.prepareStatement(query)) {
-            stmt.setLong(1, updateTripId);
-            stmt.setLong(2, passengerId);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("failed to save data: message: " + e.getMessage());
-            return false;
-        }
-        return true;
-    }
-
-    @Override
     public void saveAll(List<String> passengersTrips) {
         StringBuilder query = new StringBuilder("insert into passengers_trips (passenger_id, trip_id) values ");
         try (Connection con = DBConnector.getConnection();

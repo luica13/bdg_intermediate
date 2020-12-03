@@ -39,9 +39,9 @@ create table trip
 
 create table passengers_trips
 (
-    passenger_id bigint,
+    passenger_id bigint not null ,
     trip_id      bigint not null,
     constraint uk_passenger_trip unique (passenger_id, trip_id),
-    constraint fk_passengers foreign key (passenger_id) references passenger (id) on update cascade,
-    constraint fk_trips foreign key (trip_id) references trip (id) on update cascade
+    constraint fk_passengers foreign key (passenger_id) references passenger (id) on update cascade on delete cascade ,
+    constraint fk_trips foreign key (trip_id) references trip (id) on update cascade on delete cascade
 );
