@@ -14,7 +14,7 @@ public class PassengerDAOImpl implements PassengerDAO {
     @Override
     public Optional<Passenger> getById(long id) {
         final String query = "select p.id, p.name, p.phone, a.country, a.city from passenger p " +
-                "left join address a on p.id = a.id where p.id = ?";
+                "left join address a on p.address_id = a.id where p.id = ?";
         Passenger passenger = null;
         try (Connection con = DBConnector.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -85,30 +85,29 @@ public class PassengerDAOImpl implements PassengerDAO {
 
     @Override
     public Optional<Passenger> save(Passenger passenger) {
-        final String passQuery = "insert into passenger (name, phone) values (?, ?)";
-        final String addrQuery = "insert into address (id, country, city) values (?, ?, ?)";
+        final String passQuery = "insert into passenger (address_id, name, phone) values (?, ?, ?)";
+        final String addrQuery = "insert into address (country, city) values (?, ?)";
         try (Connection con = DBConnector.getConnection();
-             PreparedStatement stmt = con.prepareStatement(passQuery, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement stmt = con.prepareStatement(addrQuery, Statement.RETURN_GENERATED_KEYS)) {
             con.setAutoCommit(false);
-            stmt.setString(1, passenger.getName());
-            stmt.setString(2, passenger.getPhone());
+            stmt.setString(1, passenger.getAddress().getCountry());
+            stmt.setString(2, passenger.getAddress().getCity());
             ResultSet genKey = null;
             if (stmt.executeUpdate() == 1) {
                 genKey = stmt.getGeneratedKeys();
                 if (genKey.next())
-                    passenger.setId(genKey.getLong(1));
+                    passenger.getAddress().setId(genKey.getLong(1));
             }
             con.commit();
-
-            PreparedStatement stmt2 = con.prepareStatement(addrQuery, Statement.RETURN_GENERATED_KEYS);
-            stmt2.setLong(1, passenger.getId());
-            stmt2.setString(2, passenger.getAddress().getCountry());
-            stmt2.setString(3, passenger.getAddress().getCity());
+            PreparedStatement stmt2 = con.prepareStatement(passQuery, Statement.RETURN_GENERATED_KEYS);
+            stmt2.setLong(1, passenger.getAddress().getId());
+            stmt2.setString(2, passenger.getName());
+            stmt2.setString(3, passenger.getPhone());
 
             if (stmt2.executeUpdate() == 1) {
                 genKey = stmt2.getGeneratedKeys();
                 if (genKey.next())
-                    passenger.getAddress().setId(genKey.getLong(1));
+                    passenger.setId(genKey.getLong(1));
             }
             con.commit();
         } catch (SQLException e) {
