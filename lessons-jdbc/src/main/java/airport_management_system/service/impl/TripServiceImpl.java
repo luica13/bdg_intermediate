@@ -34,7 +34,7 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Set<Trip> getTrips(int page, int perPage, String sort) {
+    public List<Trip> getTrips(int page, int perPage, String sort) {
         return tripDAO.get(page, perPage, sort);
     }
 

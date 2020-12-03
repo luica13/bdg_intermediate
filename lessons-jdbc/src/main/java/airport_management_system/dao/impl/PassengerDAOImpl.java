@@ -56,11 +56,11 @@ public class PassengerDAOImpl implements PassengerDAO {
     }
 
     @Override
-    public Set<Passenger> get(int page, int perPage, String sort) {
+    public List<Passenger> get(int page, int perPage, String sort) {
         final String query = "select  p.id as passenger_id, name, phone, country, city, a.id as address_id " +
                 " from passenger p left join address a on p.id = a.id" +
                 " order by ? Limit ? offset ?";
-        Set<Passenger> passengers = null;
+        List<Passenger> passengers = null;
         Passenger passenger = null;
         Address address = null;
         try (Connection con = DBConnector.getConnection();
@@ -70,7 +70,7 @@ public class PassengerDAOImpl implements PassengerDAO {
             stmt.setInt(3, perPage);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                if (passengers == null) passengers = new HashSet<>();
+                if (passengers == null) passengers = new ArrayList<>();
                 address = new Address(rs.getString("country"), rs.getString("city"));
                 address.setId(rs.getLong("address_id"));
                 passenger = new Passenger(rs.getString("name"), rs.getString("phone"), address);
@@ -80,7 +80,7 @@ public class PassengerDAOImpl implements PassengerDAO {
         } catch (SQLException e) {
             System.err.println("failed to fetch data: message: " + e.getMessage());
         }
-        return passengers != null ? passengers : Collections.emptySet();
+        return passengers != null ? passengers : Collections.emptyList();
     }
 
     @Override
@@ -119,23 +119,24 @@ public class PassengerDAOImpl implements PassengerDAO {
 
     @Override
     public boolean saveAll(List<String> passengersAndAddresses) {
-        StringBuilder passengersQuery = new StringBuilder("insert into passenger (name, phone) values ");
-        StringBuilder addressesQuery = new StringBuilder("insert into address (id, country, city) values ");
+        StringBuilder passengersQuery = new StringBuilder("insert into passenger (address_id, name, phone) values ");
+        StringBuilder addressesQuery = new StringBuilder("insert into address (country, city) values ");
         try (Connection con = DBConnector.getConnection();
              Statement stmt = con.createStatement()) {
             con.setAutoCommit(false);
+            int idGen = 0;
             for (String line : passengersAndAddresses) {
                 line = line.replaceAll("'", "`");
                 String[] data = line.split(",");
-                passengersQuery.append("('").append(data[0].trim()).append("', '").append(data[1].trim()).append("'),");
-                addressesQuery.append("(default, '").append(data[2].trim()).append("', '").append(data[3].trim()).append("'),");
+                passengersQuery.append("(").append(++idGen).append(", '").append(data[0].trim()).append("', '").append(data[1].trim()).append("'),");
+                addressesQuery.append("('").append(data[2].trim()).append("', '").append(data[3].trim()).append("'),");
             }
             passengersQuery.replace(passengersQuery.length() - 1, passengersQuery.length(), ";");
             addressesQuery.replace(addressesQuery.length() - 1, addressesQuery.length(), ";");
-            int count = stmt.executeUpdate(passengersQuery.toString(), Statement.RETURN_GENERATED_KEYS);
+            int count = stmt.executeUpdate(addressesQuery.toString(), Statement.RETURN_GENERATED_KEYS);
             System.out.println(count);
             con.commit();
-            count = stmt.executeUpdate(addressesQuery.toString(), Statement.RETURN_GENERATED_KEYS);
+            count = stmt.executeUpdate(passengersQuery.toString(), Statement.RETURN_GENERATED_KEYS);
             System.out.println(count);
             con.commit();
         } catch (SQLException e) {

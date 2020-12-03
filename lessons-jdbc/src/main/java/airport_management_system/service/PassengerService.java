@@ -3,6 +3,7 @@ package airport_management_system.service;
 import airport_management_system.model.Passenger;
 import airport_management_system.model.Trip;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ public interface PassengerService {
 
     Set<Passenger> findAll();
 
-    Set<Passenger> getPassengers(int page, int perPage, String sort);
+    List<Passenger> getPassengers(int page, int perPage, String sort);
 
     Optional<Passenger> create(Passenger passenger);
 

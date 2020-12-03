@@ -72,11 +72,11 @@ public class TripDAOImpl implements TripDAO {
     }
 
     @Override
-    public Set<Trip> get(int page, int perPage, String sort) {
+    public List<Trip> get(int page, int perPage, String sort) {
         final String query = "select t.id as trip_id, name, founding_date, time_in, time_out," +
                 " to_city, from_city, c.id as company_id from trip t left join company c on t.company_id = c.id" +
                 " order by ? Limit ? offset ?";
-        Set<Trip> trips = null;
+        List<Trip> trips = null;
         Trip trip = null;
         try (Connection con = DBConnector.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -85,7 +85,7 @@ public class TripDAOImpl implements TripDAO {
             stmt.setInt(3, perPage);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                if (trips == null) trips = new HashSet<>();
+                if (trips == null) trips = new ArrayList<>();
                 Company company = new Company(rs.getString("name"), rs.getDate("founding_date").toLocalDate());
                 company.setId(rs.getLong("company_id"));
                 trip = new TripBuilder()
@@ -101,7 +101,7 @@ public class TripDAOImpl implements TripDAO {
         } catch (SQLException e) {
             System.err.println("failed to fetch data: message: " + e.getMessage());
         }
-        return trips;
+        return trips != null ? trips: Collections.emptyList();
     }
 
     @Override
@@ -123,7 +123,7 @@ public class TripDAOImpl implements TripDAO {
         } catch (SQLException e) {
             System.err.printf("failed to save trip by id:%d message:%s%n", trip.getId(), e.getMessage());
         }
-        return Optional.ofNullable(trip);
+        return Optional.of(trip);
     }
 
     @Override

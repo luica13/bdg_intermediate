@@ -12,7 +12,7 @@ public interface CompanyDAO {
 
     Set<Company> getAll();
 
-    Set<Company> get(int page, int perPage, String sort);
+    List<Company> get(int page, int perPage, String sort);
 
     Optional<Company> save(Company company);
 

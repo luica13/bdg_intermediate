@@ -13,7 +13,7 @@ public interface TripDAO {
 
     Set<Trip> getAll();
 
-    Set<Trip> get(int page, int perPage, String sort);
+    List<Trip> get(int page, int perPage, String sort);
 
     Optional<Trip> save(Trip trip);
 

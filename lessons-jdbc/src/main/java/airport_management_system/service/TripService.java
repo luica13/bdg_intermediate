@@ -12,7 +12,7 @@ public interface TripService {
 
     Set<Trip> findAll();
 
-    Set<Trip> getTrips(int page, int perPage, String sort);
+    List<Trip> getTrips(int page, int perPage, String sort);
 
     Optional<Trip> create(Trip trip);
 

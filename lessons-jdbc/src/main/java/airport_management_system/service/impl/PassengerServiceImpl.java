@@ -34,7 +34,7 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Set<Passenger> getPassengers(int page, int perPage, String sort) {
+    public List<Passenger> getPassengers(int page, int perPage, String sort) {
         return passengerDAO.get(page, perPage, sort);
     }
 

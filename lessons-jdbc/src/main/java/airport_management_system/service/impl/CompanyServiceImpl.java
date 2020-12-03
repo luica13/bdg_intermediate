@@ -33,7 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Set<Company> getCompany(int page, int perPage, String sort) {
+    public List<Company> getCompany(int page, int perPage, String sort) {
         return companyDAO.get(page, perPage, sort);
     }
 

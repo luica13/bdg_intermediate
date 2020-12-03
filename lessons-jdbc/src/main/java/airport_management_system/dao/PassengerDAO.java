@@ -13,7 +13,7 @@ public interface PassengerDAO {
 
     Set<Passenger> getAll();
 
-    Set<Passenger> get(int page, int perPage, String sort);
+    List<Passenger> get(int page, int perPage, String sort);
 
     Optional<Passenger> save(Passenger passenger);
 

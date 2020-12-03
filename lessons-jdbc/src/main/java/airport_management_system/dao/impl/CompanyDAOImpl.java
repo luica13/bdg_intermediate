@@ -48,9 +48,9 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
 
     @Override
-    public Set<Company> get(int page, int perPage, String sort) {
+    public List<Company> get(int page, int perPage, String sort) {
         final String query = "select * from company order by ? Limit ? offset ?";
-        Set<Company> companies = null;
+        List<Company> companies = null;
         Company company = null;
         try (Connection con = DBConnector.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
@@ -59,7 +59,7 @@ public class CompanyDAOImpl implements CompanyDAO {
             stmt.setInt(3, perPage);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                if (companies == null) companies = new HashSet<>();
+                if (companies == null) companies = new ArrayList<>();
                 company = new Company(rs.getString("name"), rs.getDate("founding_date").toLocalDate());
                 company.setId(rs.getLong("id"));
                 companies.add(company);
@@ -67,7 +67,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return companies != null ? companies : Collections.emptySet();
+        return companies != null ? companies : Collections.emptyList();
     }
 
     @Override

@@ -4,7 +4,8 @@ create table address
 (
     id      bigserial primary key,
     country varchar(100) not null ,
-    city    varchar(100) not null
+    city    varchar(100) not null,
+    constraint unique (country, city)
 );
 
 create table passenger
