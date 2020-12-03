@@ -95,6 +95,19 @@ class CustomLinkedListTest {
         }
 
         @Test
+        void lastIndexOfObjectIsNull() {
+            Object object = null;
+            Assertions.assertEquals(customLinkedList.lastIndexOf(object), -1);
+        }
+
+        @Test
+        void lastIndexOfObjectIsNulll() {
+            String object = null;
+            customLinkedList.addAll(Arrays.asList(object, object, object));
+            Assertions.assertEquals(customLinkedList.lastIndexOf(object), customLinkedList.size() - 1);
+        }
+
+        @Test
         void set() {
             customLinkedList.set(2, test);
             Assertions.assertEquals(test, customLinkedList.get(2));
