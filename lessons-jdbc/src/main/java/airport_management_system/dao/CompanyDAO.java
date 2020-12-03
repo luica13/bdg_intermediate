@@ -1,6 +1,7 @@
 package airport_management_system.dao;
 
-import lesson10.airport_management_system.model.Company;
+
+import airport_management_system.model.Company;
 
 import java.util.List;
 import java.util.Optional;
