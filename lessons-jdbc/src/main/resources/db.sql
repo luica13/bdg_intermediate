@@ -1,5 +1,12 @@
 -- create database airport_management_system;
 
+create table address
+(
+    id      bigserial primary key,
+    country varchar(100) not null ,
+    city    varchar(100) not null
+);
+
 create table passenger
 (
     id    bigserial primary key,
@@ -7,13 +14,6 @@ create table passenger
     name  varchar(100) not null,
     phone varchar(150) not null unique,
     constraint fk_passenger_address foreign key (address_id) references address (id)
-);
-
-create table address
-(
-    id      bigserial primary key,
-    country varchar(100) not null ,
-    city    varchar(100) not null
 );
 
 create table company
