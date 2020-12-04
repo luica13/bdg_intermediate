@@ -82,12 +82,6 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
     }
 
     @Override
-    public Set<Passenger> findPassengersByTripId(long tripId) {
-        Trip trip = entityManager.find(Trip.class, tripId);
-        return trip == null ? Collections.emptySet() : trip.getPassengers();
-    }
-
-    @Override
     public Optional<Trip> update(Trip trip) {
         final long id = trip.getId();
         execQueryByOneTransaction(em -> {
@@ -119,13 +113,19 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
     }
 
     @Override
+    public Set<Passenger> findPassengersByTripId(long tripId) {
+        Trip trip = entityManager.find(Trip.class, tripId);
+        return trip == null ? Collections.emptySet() : trip.getPassengers();
+    }
+
+    @Override
     public List<Trip> getTripsByFromCity(String fromCity) {
-        return getTripsByCity("from_city", fromCity);
+        return getTripsByCity("fromCity", fromCity);
     }
 
     @Override
     public List<Trip> getTripsByToCity(String toCity) {
-        return getTripsByCity("to_city", toCity);
+        return getTripsByCity("toCity", toCity);
     }
 
 
@@ -133,8 +133,7 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Trip> cq = cb.createQuery(Trip.class);
         Root<Trip> from = cq.from(Trip.class);
-        cq.select(from);
-        cq.where(cb.equal(from.get(attr), city));
+        cq.select(from).where(cb.equal(from.get(attr), city));
         return entityManager.createQuery(cq).getResultList();
     }
 }

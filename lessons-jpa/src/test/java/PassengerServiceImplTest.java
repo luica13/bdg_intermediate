@@ -88,7 +88,7 @@ class PassengerServiceImplTest {
     @Test
     void getPassengersOfTrip() {
         Set<Passenger> passengers = passengerService.getPassengersOfTrip(5);
-        for (Passenger passenger: passengers) {
+        for (Passenger passenger : passengers) {
             assertEquals(5, passenger.getTrips().stream().findAny().orElse(new Trip()).getId());
         }
     }

@@ -23,7 +23,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Optional<Company> getCompanyByPages(long id) {
+    public Optional<Company> getCompany(long id) {
         return companyDAO.getById(id);
     }
 
@@ -33,7 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public List<Company> getCompanyByPages(int limit, int offset, String sort) {
+    public List<Company> getCompany(int limit, int offset, String sort) {
         return companyDAO.get(limit, offset, sort);
     }
 

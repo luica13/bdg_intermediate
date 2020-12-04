@@ -1,4 +1,3 @@
-
 import dao.impl.CompanyDAOImpl;
 import entity.Company;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 class CompanyServiceImplTest {
 
@@ -32,7 +30,7 @@ class CompanyServiceImplTest {
 
     @Test
     void getCompany() {
-        Optional<Company> optionalCompany = service.getCompanyByPages(5);
+        Optional<Company> optionalCompany = service.getCompany(5);
         if (optionalCompany.isPresent()) assertEquals(5, optionalCompany.get().getId());
         else Assertions.fail();
     }
@@ -45,7 +43,7 @@ class CompanyServiceImplTest {
 
     @Test
     void testGetCompanyBySortingAndPaging() {
-        List<Company> companies = service.getCompanyByPages(20, 5, "name");
+        List<Company> companies = service.getCompany(20, 5, "name");
         assertEquals(20, companies.size());
         assertTrue(companies.get(0).getName().startsWith("A"));
     }
@@ -54,7 +52,7 @@ class CompanyServiceImplTest {
     void create() {
         Optional<Company> company = service.create(new Company("Luftganza", LocalDate.of(1983, Month.AUGUST, 7)));
         if (company.isPresent()) {
-            company = service.getCompanyByPages(company.get().getId());
+            company = service.getCompany(company.get().getId());
             if (company.isPresent()) assertEquals("Luftganza", company.get().getName());
             else Assertions.fail();
         } else Assertions.fail();
@@ -64,12 +62,12 @@ class CompanyServiceImplTest {
     void edit() {
         final String newName = "AirLane";
         final int id = 675;
-        Optional<Company> company = service.getCompanyByPages(id);
+        Optional<Company> company = service.getCompany(id);
         company.ifPresent(c -> {
             c.setName(newName);
             service.edit(c);
         });
-        company = service.getCompanyByPages(id);
+        company = service.getCompany(id);
         if (company.isPresent()) assertEquals(newName, company.get().getName());
         else Assertions.fail();
     }
@@ -77,9 +75,9 @@ class CompanyServiceImplTest {
     @Test
     void remove() {
         final int id = 210;
-        Optional<Company> company = service.getCompanyByPages(id);
+        Optional<Company> company = service.getCompany(id);
         assertNotNull(company.orElse(null));
         service.remove(id);
-        assertNull(service.getCompanyByPages(id).orElse(null));
+        assertNull(service.getCompany(id).orElse(null));
     }
 }

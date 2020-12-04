@@ -7,11 +7,11 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface CompanyService {
-    Optional<Company> getCompanyByPages(long id);
+    Optional<Company> getCompany(long id);
 
     Set<Company> findAll();
 
-    List<Company> getCompanyByPages(int limit, int offset, String sort);
+    List<Company> getCompany(int limit, int offset, String sort);
 
     Optional<Company> create(Company company);
 

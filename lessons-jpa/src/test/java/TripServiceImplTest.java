@@ -1,31 +1,37 @@
-package airport_management_system.service.impl;
-
-import airport_management_system.dao.impl.CompanyDAOImpl;
-import airport_management_system.dao.impl.TripDAOImpl;
-import airport_management_system.model.Company;
-import airport_management_system.model.Passenger;
-import airport_management_system.model.Trip;
-import airport_management_system.service.TripService;
+import dao.impl.CompanyDAOImpl;
+import dao.impl.TripDAOImpl;
+import entity.Company;
+import entity.Passenger;
+import entity.Trip;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import service.TripService;
+import service.impl.CompanyServiceImpl;
+import service.impl.TripServiceImpl;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import static airport_management_system.model.Trip.TripBuilder;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TripServiceImplTest {
 
     private static TripService service;
+    private static EntityManager em;
 
     @BeforeAll
     static void setUp() {
-        service = new TripServiceImpl(new TripDAOImpl());
+        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("Hibernate_JPA");
+        em = emf.createEntityManager();
+        service = new TripServiceImpl(new TripDAOImpl(em));
     }
+
 
     @Test
     void getTrip() {
@@ -43,22 +49,17 @@ class TripServiceImplTest {
 
     @Test
     void getTrips() {
-        List<Trip> trips = service.getTrips(2, 4, "time_in");
+        List<Trip> trips = service.getTrips(2, 4, "from_city");
         assertEquals(2, trips.size());
-        assertEquals(5, trips.get(0).getId());
+        assertTrue(trips.get(0).getFromCity().startsWith("A"));
     }
 
     @Test
     void create() {
-        Optional<Company> optionalCompany = new CompanyServiceImpl(new CompanyDAOImpl()).getCompany(87);
+        Optional<Company> optionalCompany = new CompanyServiceImpl(new CompanyDAOImpl(em)).getCompany(87);
         optionalCompany.ifPresent(company -> {
-            Trip trip = new TripBuilder()
-                    .company(company)
-                    .timeIn(LocalDateTime.now())
-                    .timeOut(LocalDateTime.now().plusHours(2))
-                    .fromCity("Braga")
-                    .toCity("Tallin")
-                    .build();
+            Trip trip = new Trip(company, LocalDateTime.now(), LocalDateTime.now().plusHours(2),
+                    "Braga", "Tallin");
             Optional<Trip> optionalTrip = service.create(trip);
             if (optionalTrip.isPresent()) {
                 optionalTrip = service.getTrip(optionalTrip.get().getId());
@@ -90,8 +91,8 @@ class TripServiceImplTest {
 
     @Test
     void getTripsFromCity() {
-        List<Trip> trips = service.getTripsFromCity("Moscow");
-        trips.forEach(trip -> assertEquals("Moscow", trip.getFromCity()));
+        List<Trip> trips = service.getTripsFromCity("Paris");
+        trips.forEach(trip -> assertEquals("Paris", trip.getFromCity()));
     }
 
     @Test
@@ -103,8 +104,14 @@ class TripServiceImplTest {
     @Test
     void getPassengerTrips() {
         Set<Trip> passengerTrips = service.getPassengerTrips(1);
-        passengerTrips.forEach(trip -> assertEquals(1, trip.getPassengers().stream().findAny()
-                .orElse(new Passenger("", "", null))
-                .getId()));
+        passengerTrips.forEach(trip -> assertTrue(trip.getPassengers().stream()
+                .anyMatch(passenger -> passenger.getId() == 1)));
+    }
+
+    @Test
+    void getTripPassengers() {
+        Set<Passenger> tripPassengers = service.getTripPassengers(8);
+        tripPassengers.forEach(passenger -> assertTrue(
+                passenger.getTrips().stream().anyMatch(trip -> trip.getId() == 8)));
     }
 }
