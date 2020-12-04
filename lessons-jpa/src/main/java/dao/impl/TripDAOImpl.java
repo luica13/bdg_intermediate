@@ -64,16 +64,6 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
 
     @Override
     public boolean saveAll(List<String> trips) {
-//        final StringBuilder query = new StringBuilder("insert into trip(company_id, time_in, time_out, from_city, to_city)" +
-//                " values ");
-//        for (String line : trips) {
-//            String[] data = line.split(",");
-//            query.append("('").append(data[0].trim()).append("', '").append(data[1].trim())
-//                    .append("', '").append(data[2].trim()).append("', '").append(data[3].trim())
-//                    .append("', '").append(data[4].trim()).append("'),");
-//        }
-//        query.replace(query.length() - 1, query.length(), ";");
-//        execQueryByOneTransaction(em -> em.createNativeQuery(query.toString()).executeUpdate());
         execQueryByOneTransaction(em -> {
             em.unwrap(Session.class).setJdbcBatchSize(1000);
             try {

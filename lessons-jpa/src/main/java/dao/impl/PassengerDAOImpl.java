@@ -63,20 +63,6 @@ public class PassengerDAOImpl extends BaseDao implements PassengerDAO {
 
     @Override
     public boolean saveAll(List<String> passengersAndAddresses) {
-//        StringBuilder passengersQuery = new StringBuilder("insert into passenger (name, phone) values ");
-//        StringBuilder addressesQuery = new StringBuilder("insert into address (country, city) values ");
-//        for (String line : passengersAndAddresses) {
-//            line = line.replaceAll("'", "`");
-//            String[] data = line.split(",");
-//            passengersQuery.append("('").append(data[0].trim()).append("', '").append(data[1].trim()).append("'),");
-//            addressesQuery.append("(default, '").append(data[2].trim()).append("', '").append(data[3].trim()).append("'),");
-//        }
-//        passengersQuery.replace(passengersQuery.length() - 1, passengersQuery.length(), ";");
-//        addressesQuery.replace(addressesQuery.length() - 1, addressesQuery.length(), ";");
-//        execQueryByOneTransaction(em -> {
-//            em.createNativeQuery(passengersQuery.toString()).executeUpdate();
-//            em.createNativeQuery(addressesQuery.toString()).executeUpdate();
-//        });
         execQueryByOneTransaction(em -> {
             em.unwrap(Session.class).setJdbcBatchSize(1001);
             try {
@@ -87,7 +73,6 @@ public class PassengerDAOImpl extends BaseDao implements PassengerDAO {
                     if (address == null) address = new Address(data[2].trim(), data[3].trim());
                     Passenger passenger = new Passenger(data[0].trim(), data[1].trim(), address);
                     if (address.getPassengers() == null) address.setPassengers(new HashSet<>());
-                    passenger.setAddress(address);
                     address.getPassengers().add(passenger);
                     em.persist(address);
                 }

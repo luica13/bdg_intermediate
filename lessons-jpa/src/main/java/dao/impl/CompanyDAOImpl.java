@@ -86,7 +86,6 @@ public class CompanyDAOImpl extends BaseDao implements CompanyDAO {
         if (oldCompany != null) {
             oldCompany.setFoundingDate(company.getFoundingDate());
             oldCompany.setName(company.getName());
-//            entityManager.createNativeQuery("select founding_date, name from c where name = 'a'", Company.class);
             execQueryByOneTransaction(em -> em.persist(oldCompany));
             System.out.printf("Company by id:%d successfully updated%n", id);
         } else System.err.printf("Company by id:%d not found%n", id);
