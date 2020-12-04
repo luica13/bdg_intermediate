@@ -12,7 +12,7 @@ public interface TripDAO {
 
     Set<Trip> getAll();
 
-    Set<Trip> get(int offset, int limit, String sort);
+    List<Trip> get(int limit, int offset, String sort);
 
     Optional<Trip> save(Trip trip);
 

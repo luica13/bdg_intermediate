@@ -42,7 +42,7 @@ public class CompanyDAOImpl extends BaseDao implements CompanyDAO {
     }
 
     @Override
-    public Set<Company> get(int offset, int limit, String sort) {
+    public List<Company> get(int limit, int offset, String sort) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Company> cq = cb.createQuery(Company.class);
         Root<Company> from = cq.from(Company.class);
@@ -52,7 +52,7 @@ public class CompanyDAOImpl extends BaseDao implements CompanyDAO {
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultStream()
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override

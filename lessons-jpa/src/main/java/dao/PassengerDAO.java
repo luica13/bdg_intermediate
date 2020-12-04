@@ -12,7 +12,7 @@ public interface PassengerDAO {
 
     Set<Passenger> getAll();
 
-    Set<Passenger> get(int offset, int limit, String sort);
+    List<Passenger> get(int limit, int offset, String sort);
 
     Optional<Passenger> save(Passenger passenger);
 

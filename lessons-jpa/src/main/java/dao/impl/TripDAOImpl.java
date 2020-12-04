@@ -43,7 +43,7 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
     }
 
     @Override
-    public Set<Trip> get(int offset, int limit, String sort) {
+    public List<Trip> get(int limit, int offset, String sort) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Trip> cq = cb.createQuery(Trip.class);
         Root<Trip> from = cq.from(Trip.class);
@@ -53,7 +53,7 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultStream()
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override

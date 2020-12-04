@@ -17,9 +17,9 @@ public class Main {
         PassengerService passengerService = new PassengerServiceImpl(new PassengerDAOImpl());
         TripService tripService = new TripServiceImpl(new TripDAOImpl());
         PassengerTripService passengerTripService = new PassengerTripServiceImpl(new PassengerTripDAOImpl());
-        companyService.loadCompaniesInfoFromFileAndCreateAll("lessons-jdbc/src/main/resources/companies.txt");
-        passengerService.loadPassengersInfoFromFileAndCreateAll("lessons-jdbc/src/main/resources/passengers.txt");
-        tripService.loadTripsInfoFromFileAndCreateAll("lessons-jdbc/src/main/resources/trips.txt");
-        passengerTripService.loadPassengersTripsInfoFromFileAndCreateAll("lessons-jdbc/src/main/resources/passengers_trips.txt");
+        companyService.loadCompaniesInfoFromFileAndCreateAll("root_resource/companies.txt");
+        passengerService.loadPassengersInfoFromFileAndCreateAll("root_resource/passengers.txt");
+        tripService.loadTripsInfoFromFileAndCreateAll("root_resource/trips.txt");
+        passengerTripService.loadPassengersTripsInfoFromFileAndCreateAll("root_resource/passengers_trips.txt");
     }
 }

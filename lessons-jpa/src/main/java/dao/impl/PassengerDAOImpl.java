@@ -39,7 +39,7 @@ public class PassengerDAOImpl extends BaseDao implements PassengerDAO {
     }
 
     @Override
-    public Set<Passenger> get(int offset, int limit, String sort) {
+    public List<Passenger> get(int limit, int offset, String sort) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Passenger> cq = cb.createQuery(Passenger.class);
         Root<Passenger> from = cq.from(Passenger.class);
@@ -49,7 +49,7 @@ public class PassengerDAOImpl extends BaseDao implements PassengerDAO {
                 .setFirstResult(offset)
                 .setMaxResults(limit)
                 .getResultStream()
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     @Override

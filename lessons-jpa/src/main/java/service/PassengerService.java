@@ -3,6 +3,7 @@ package service;
 import entity.Passenger;
 import entity.Trip;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,7 +12,7 @@ public interface PassengerService {
 
     Set<Passenger> findAll();
 
-    Set<Passenger> getPassengers(int offset, int limit, String sort);
+    List<Passenger> getPassengers(int limit, int offset, String sort);
 
     Optional<Passenger> create(Passenger passenger);
 

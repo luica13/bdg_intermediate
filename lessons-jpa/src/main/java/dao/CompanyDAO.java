@@ -11,7 +11,7 @@ public interface CompanyDAO {
 
     Set<Company> getAll();
 
-    Set<Company> get(int offset, int limit, String sort);
+    List<Company> get(int limit, int offset, String sort);
 
     Optional<Company> save(Company company);
 

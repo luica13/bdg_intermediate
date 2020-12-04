@@ -2,15 +2,16 @@ package service;
 
 import entity.Company;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface CompanyService {
-    Optional<Company> getCompany(long id);
+    Optional<Company> getCompanyByPages(long id);
 
     Set<Company> findAll();
 
-    Set<Company> getCompany(int page, int perPage, String sort);
+    List<Company> getCompanyByPages(int limit, int offset, String sort);
 
     Optional<Company> create(Company company);
 
