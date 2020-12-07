@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="airport@localhost" uuid="fc01d1e4-17a0-4cc4-a2b4-ae1fda4c9508">
+    <data-source source="LOCAL" name="airportJPA@localhost" uuid="b0135f4a-abfb-4141-96b7-1a27fe8941ae">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/airportJPA</jdbc-url>
+    </data-source>
+    <data-source source="LOCAL" name="airport@localhost" uuid="cc6ffe31-e290-4f8f-8e4f-05c363fb8353">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
