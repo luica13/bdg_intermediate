@@ -1,23 +1,19 @@
 package com.bdg.demo.models;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class Main {
     public static void main(String[] args) {
 
-        ElectronicStatementCreator electronicStatementCreator = new ElectronicStatementCreator();
+        ClassPathXmlApplicationContext classPathXmlApplicationContext = new
+                ClassPathXmlApplicationContext("applicationContext.xml");
 
-        AccountStatement accountStatement = new AccountStatement();
-
-        accountStatement.setStatementCreator(electronicStatementCreator);
+        AccountStatement accountStatement;
+        accountStatement = classPathXmlApplicationContext
+                .getBean("accountStatement", AccountStatement.class);
         accountStatement.create();
-        electronicStatementCreator = null;
-
-
-
-
-
-
-        PaperStatementCreator paperStatementCreator = new PaperStatementCreator();
-        accountStatement.setStatementCreator(paperStatementCreator);
+        accountStatement = classPathXmlApplicationContext
+                .getBean("accountStatement1", AccountStatement.class);
         accountStatement.create();
     }
 }
