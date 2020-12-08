@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-init-method="globalCustomInit"
+       default-destroy-method="globalCustomDestroy">
+
+    <bean id="personBean" class="example1.PersonBean">
+        <property name="name" value="Dummy Person"/>
+    </bean>
+
+    <bean id="awareBean" class="example1.AwareBean"/>
+
+    <bean id="customLifeCycleMethodBean" class="example1.CustomLifeCycleMethodBean"
+          init-method="customInit" destroy-method="customDestroy">
+        <property name="name" value="custom methods bean"/>
+    </bean>
+
+    <bean id="customGlobalLifeCycleMethodBean"
+          class="example1.CustomGlobalLifeCycleMethodBean" />
+</beans>
