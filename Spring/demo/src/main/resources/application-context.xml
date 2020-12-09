@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id = "paperStatementCreator" class="com.bdg.demo.models.PaperStatementCreator"/>
+    <bean id ="electronicStatementCreator" class="com.bdg.demo.models.ElectronicStatementCreator"/>
+
+    <bean id="accountStatement" class="com.bdg.demo.models.AccountStatement">
+        <property name="accountNumber" value="4988754"/>
+        <property name="statementCreator" ref="paperStatementCreator"/>
+    </bean>
+
+    <bean id="accountStatement1" class="com.bdg.demo.models.AccountStatement">
+        <property name="accountNumber" value="9851326asda"/>
+        <property name="statementCreator" ref="electronicStatementCreator"/>
+    </bean>
+</beans>

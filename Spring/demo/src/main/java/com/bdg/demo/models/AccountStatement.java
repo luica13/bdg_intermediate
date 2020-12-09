@@ -17,22 +17,6 @@ public class AccountStatement {
         this.statementCreator = statementCreator;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
-    }
-
-    public StatementCreator getStatementCreator() {
-        return statementCreator;
-    }
-
-    public void setStatementCreator(StatementCreator statementCreator) {
-        this.statementCreator = statementCreator;
-    }
-
     public void create(){
         statementCreator.create();
     }
