@@ -86,6 +86,7 @@ public class Passenger {
         Common.delete(Passenger.class, id);
     }
 
+
 //    List<Passenger> getPassengersOfTrip(long tripNumber)
 //    {
 //

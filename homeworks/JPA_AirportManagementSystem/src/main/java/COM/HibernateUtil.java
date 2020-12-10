@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 
 public class HibernateUtil {
 
+
     private static final String persistenceUnitName = "Connection_JPA";
     private static HibernateUtil instance = null;
 

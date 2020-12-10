@@ -6,6 +6,7 @@ import java.util.Set;
 
 @Entity
 public class Trip {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long tripNumber;

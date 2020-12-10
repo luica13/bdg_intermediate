@@ -15,6 +15,7 @@ public class Ticket {
     public Ticket() {
     }
 
+
     public Ticket(Trip trip, Passenger passenger) {
         this.trip = trip;
         this.passenger = passenger;
