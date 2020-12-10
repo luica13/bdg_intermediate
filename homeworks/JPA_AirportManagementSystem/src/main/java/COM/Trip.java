@@ -2,6 +2,7 @@ package COM;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 public class Trip {
@@ -76,5 +77,30 @@ public class Trip {
 
     public void setTownFrom(Address townFrom) {
         this.townFrom = townFrom;
+    }
+
+    public static Trip getById(long id)
+    {
+        return Common.getById(Trip.class,id);
+    }
+
+    public static Set<Trip> getAll()
+    {
+        return Common.getAll(Trip.class,"trip" );
+    }
+
+    public static Trip save(Trip trip)
+    {
+        return Common.save(trip);
+    }
+
+    public static Trip update(Trip trip)
+    {
+        return Common.update(trip);
+    }
+
+    public static void delete(long id)
+    {
+        Common.delete(Trip.class, id);
     }
 }

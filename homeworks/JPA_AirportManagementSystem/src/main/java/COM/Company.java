@@ -2,6 +2,7 @@ package COM;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 public class Company {
@@ -45,5 +46,29 @@ public class Company {
         this.foundingDate = foundingDate;
     }
 
+    public static Company getById(long id)
+    {
+        return Common.getById(Company.class,id);
+    }
+
+    public static Set<Company> getAll()
+    {
+        return Common.getAll(Company.class,"company" );
+    }
+
+    public static Company save(Company company)
+    {
+        return Common.save(company);
+    }
+
+    public static Company update(Company company)
+    {
+        return Common.update(company);
+    }
+
+    public static void delete(long id)
+    {
+        Common.delete(Company.class, id);
+    }
 
 }

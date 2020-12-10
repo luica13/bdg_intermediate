@@ -1,30 +1,62 @@
 package COM;
 
-import org.hibernate.Session;
-
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Common {
-    public static <T> T getById(Session session, Class<T> tClass, long id)
+//    public static <T> T getById(Session session, Class<T> tClass, long id)
+//    {
+//        T passenger = session.get(tClass,id);
+//
+//        return passenger;
+//    }
+    public static <T> T getById(Class<T> tClass, long id)
     {
-        T passenger = session.get(tClass,id);
-
+        EntityManager em =HibernateUtil.getEntityManager();
+        T passenger = em.find(tClass,id);
+        em.close();
         return passenger;
     }
-    public static <T> T getById(EntityManager entityManager, Class<T> tClass, long id)
+
+    public static <T> T getById(EntityManager em,Class<T> tClass, long id)
     {
-        T passenger = entityManager.find(tClass,id);
-        return passenger;
+        return em.find(tClass,id);
     }
 
-    public static <T> Set<T> getAll(EntityManager entityManager, Class<T> tClass, String tableName)
+    public static <T> Set<T> getAll(Class<T> tClass, String tableName)
     {
-        Set<T> passengers = new HashSet(entityManager.createQuery("select a from " +tableName+ " a", tClass).getResultList());
+        EntityManager em =HibernateUtil.getEntityManager();
+        Set<T> passengers = new HashSet<>(em.createQuery("select a from " +tableName+ " a", tClass).getResultList());
+        em.close();
         return passengers;
     }
+
+    public static <T>T save( T value)
+    {
+        EntityManager em =HibernateUtil.getEntityManager();
+        em.persist(value);
+        T tValue = (T)em.getReference(value.getClass(),value);
+        em.close();
+        return tValue;
+    }
+
+    public static <T>T update(T value)
+    {
+        EntityManager em =HibernateUtil.getEntityManager();
+        T tValue = em.merge(value);
+        em.close();
+        return tValue;
+    }
+
+    public static <T> void delete(Class<T> tClass, long passengerId)
+    {
+       EntityManager em =HibernateUtil.getEntityManager();
+       T t = getById(em, tClass,passengerId);
+       if(t!=null)
+            em.remove(t);
+       em.close();
+    }
+
 
 }

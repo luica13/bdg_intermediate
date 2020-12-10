@@ -6,6 +6,7 @@ import org.hibernate.query.Query;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -62,20 +63,32 @@ public class Passenger {
 
     public static Passenger getById(long id)
     {
-
-        //EntityManagerFactory emf = HibernateUtil.Persistence.createEntityManagerFactory("Connection_JPA");
-        EntityManager em =HibernateUtil.getEntityManager();
-        Passenger passenger = Common.getById(em,Passenger.class,id);
-        em.close();
-        return passenger;
+        return Common.getById(Passenger.class,id);
     }
 
-    public Set<Passenger> getAll()
+    public static Set<Passenger> getAll()
     {
-        EntityManager em =HibernateUtil.getEntityManager();
-        Set<Passenger> set= Common.getAll(em,Passenger.class,"passenger" );
-        em.close();
-        return set;
+        return Common.getAll(Passenger.class,"passenger" );
     }
+
+    public static Passenger save(Passenger passenger)
+    {
+        return Common.save(passenger);
+    }
+
+    public static Passenger update(Passenger passenger)
+    {
+        return Common.update(passenger);
+    }
+
+    public static void delete(long id)
+    {
+        Common.delete(Passenger.class, id);
+    }
+
+//    List<Passenger> getPassengersOfTrip(long tripNumber)
+//    {
+//
+//    }
 
 }
