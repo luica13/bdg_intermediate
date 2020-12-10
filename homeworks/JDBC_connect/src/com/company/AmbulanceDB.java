@@ -6,7 +6,7 @@ public class AmbulanceDB {
 
     public static Connection connectDB(){
 
-        String url = "jdbc:mysql://localhost:3306/University";
+        String url = "jdbc:mysql://localhost:3306/Ambulance";
         String userName = "root";
         String password = "root";
         String sqlSelect = "SELECT * FROM company";

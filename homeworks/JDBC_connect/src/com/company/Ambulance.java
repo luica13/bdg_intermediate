@@ -1,76 +1,59 @@
 package com.company;
 
-public class Ambulance {
-}
-package com.company;
+        import javax.swing.*;
+        import java.awt.*;
+        import java.awt.event.ActionEvent;
+        import java.awt.event.ActionListener;
+        import java.awt.event.KeyEvent;
+        import java.awt.event.KeyListener;
 
-public class Student {
-    private int studentid;
-    private String sname;
-    private String slname;
-    private double mog;
-    private int groupId;
+public class Ambulance extends JFrame implements ActionListener, KeyListener {
+    private JButton openDoctorList = new JButton("Open DoctorList");
+    private JLabel logoImgeLabel = new JLabel();
+    private JLabel nameTextLabel = new JLabel();
+    private Icon icon = new ImageIcon("nuaca.png");
+    private JLabel generalText = new JLabel();
+    private JButton deleteButton = new JButton("Delete");
 
+    public Ambulance(){
+        setLayout(new FlowLayout());
+        Font myFont = new Font("Arial", Font.BOLD, 20);
+        nameTextLabel.setFont(myFont);
+        nameTextLabel.setText(("Company Name"));
+        add(nameTextLabel);
 
-    public Student() {
-    }
-
-    public int getStudentid() {
-        return studentid;
-    }
-
-    public void setStudentid(int studentid) {
-        this.studentid = studentid;
-    }
-
-    public String getSname() {
-        return sname;
-    }
-
-    public void setSname(String sname) {
-        this.sname = sname;
-    }
-
-    public String getSlname() {
-        return slname;
-    }
-
-    public void setSlname(String slname) {
-        this.slname = slname;
-    }
-
-    public double getMog() {
-        return mog;
-    }
-
-    public void setMog(double mog) {
-        this.mog = mog;
-    }
-
-    public int getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
-    }
-
-    public Student(int studentid, String sname, String slname, double mog, int groupId) {
-        this.studentid = studentid;
-        this.sname = sname;
-        this.slname = slname;
-        this.mog = mog;
-        this.groupId = groupId;
+        logoImgeLabel.setIcon(icon);
+        add(logoImgeLabel);
+        add(openDoctorList);
+        add(deleteButton);
+        openDoctorList.addActionListener(this);
+        deleteButton.addActionListener(this);
+        setSize(500, 800);
+        setVisible(true);
     }
 
     @Override
-    public String toString() {
-        return "Student{" +
-                "studentid=" + studentid +
-                ", sname='" + sname + '\'' +
-                ", slname='" + slname + '\'' +
-                ", mog=" + mog +
-                ", groupId=" + groupId +
-                '}';
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == openDoctorList){
+            DoctorWindow doctorWindow = new DoctorWindow();
+        }
+        if(e.getSource() == deleteButton){
+            DeleteDoctorWindow deleteDoctorWindow = new DeleteDoctorWindow();
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }
