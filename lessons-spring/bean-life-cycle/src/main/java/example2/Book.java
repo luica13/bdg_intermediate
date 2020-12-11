@@ -14,15 +14,17 @@ public class Book implements InitializingBean, DisposableBean {
     public Book(String bookName) {
         this.bookName = bookName;
     }
-
+    //seventh step
     public void customInit() {
         System.out.println("Called custom init method from " + this.getClass().getName());
     }
+
+    //nine step
     public void customDestroy() {
         System.out.println("Called custom destroy method from " + this.getClass().getName());
     }
 
-    //seventh step
+    //eight step
     @Override
     public void destroy() throws Exception {
         System.out.println("Destroy method of Book bean called !! ");
