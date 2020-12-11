@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
-public class AmbulanceWindow extends JFrame implements ActionListener {
+public class DoctorWindow extends JFrame implements ActionListener {
     private JButton select = new JButton("Select");
     private JButton save = new JButton("Save");
     private JButton saveupdate = new JButton("Save Update");
@@ -60,14 +60,14 @@ public class AmbulanceWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == select) {
-            DoctorList doctorList = new DoctorList();
+            DoctorsList doctorList = new DoctorsList();
             doctorList.doctorFill();
             doctorList.doctorFill();
 
             doctortext.setText(doctorList.textDoctor());
         }
         if (e.getSource() == saveupdate) {
-            DoctorList doctorList = new DoctorList();
+            DoctorsList doctorList = new DoctorsList();
             doctorList.insertDoctor(doctorname.getText(), doctorlname.getText(),
                     Double.parseDouble(textdoctormog.getText()), Integer.parseInt(doctorgroupId.getText()));
 
