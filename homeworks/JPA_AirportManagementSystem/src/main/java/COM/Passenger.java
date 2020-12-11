@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -87,9 +89,25 @@ public class Passenger {
     }
 
 
-//    List<Passenger> getPassengersOfTrip(long tripNumber)
-//    {
-//
-//    }
+    public static List<Passenger> getPassengersOfTrip(long tripNumber)
+    {
+        EntityManager em =HibernateUtil.getEntityManager();
+        List<Passenger> list = em.createQuery("select c from Passenger c INNER join Ticket on Passenger.id=Ticket.passenger.id INNER join Trip on Ticket.trip.tripNumber=Trip.tripNumber where Trip.tripNumber=:tripNumber")
+                .setParameter("tripNumber", tripNumber)
+                .getResultList();
+        em.close();
+        return list;
+    }
+
+    public static void registerTrip(Trip trip, Passenger passenger)
+    {
+        Ticket ticket = new Ticket(trip,passenger);
+        ticket.save();
+    }
+
+    public static void cancelTrip(long passengerId, long tripNumber)
+    {
+        Ticket.delete(passengerId, tripNumber);
+    }
 
 }

@@ -2,6 +2,7 @@ package COM;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -103,5 +104,23 @@ public class Trip {
     public static void delete(long id)
     {
         Common.delete(Trip.class, id);
+    }
+
+    public static List<Trip> getTripsFrom(String city)
+    {
+        EntityManager em = HibernateUtil.getEntityManager();
+        List<Trip> trips = em.createQuery("SELECT c FROM Trip c INNER JOIN Address ON Trip.townFrom = Address.city where Address.city = :city")
+                .setParameter("city", city)
+                .getResultList();
+        return trips;
+    }
+
+    public static List<Trip> getTripsTo(String city)
+    {
+        EntityManager em = HibernateUtil.getEntityManager();
+        List<Trip> trips = em.createQuery("SELECT c FROM Trip c INNER JOIN Address ON Trip.townToo = Address.city where Address.city = :city")
+                .setParameter("city", city)
+                .getResultList();
+        return trips;
     }
 }
