@@ -1,8 +1,8 @@
-package service.impl;
+package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import dao.CompanyDAO;
-import entity.Company;
-import service.CompanyService;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.CompanyService;
 
 import java.io.IOException;
 import java.nio.file.Files;

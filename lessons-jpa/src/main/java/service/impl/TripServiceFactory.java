@@ -1,8 +1,8 @@
-package service.impl;
+package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import dao.impl.TripDAOImpl;
-import service.ServiceFactory;
-import service.TripService;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.ServiceFactory;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.TripService;
 
 import javax.persistence.EntityManager;
 
