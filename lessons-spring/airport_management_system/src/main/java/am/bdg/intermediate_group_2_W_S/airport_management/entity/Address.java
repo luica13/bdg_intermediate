@@ -2,7 +2,6 @@ package am.bdg.intermediate_group_2_W_S.airport_management.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -13,7 +12,6 @@ import java.util.StringJoiner;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"country", "city"}))
@@ -30,9 +28,11 @@ public class Address {
     private String city;
 
     @OneToMany(mappedBy = "address",
-            cascade = {CascadeType.REMOVE,
+            cascade = {
                     CascadeType.PERSIST,
-                    CascadeType.REFRESH},
+                    CascadeType.REMOVE,
+                    CascadeType.MERGE
+            },
             orphanRemoval = true)
     private Set<Passenger> passengers;
 

@@ -1,6 +1,8 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -9,7 +11,6 @@ import java.util.StringJoiner;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Passenger {
@@ -27,8 +28,11 @@ public class Passenger {
     @ManyToOne(fetch = FetchType.LAZY)
     private Address address;
 
-    @ManyToMany(mappedBy = "passengers",
-            cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @ManyToMany(mappedBy = "passengers", fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.REMOVE,
+                    CascadeType.PERSIST
+            })
     Set<Trip> trips;
 
     public Passenger(String name, String phone, Address address) {

@@ -1,6 +1,8 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -10,7 +12,6 @@ import java.util.StringJoiner;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Company {
@@ -26,7 +27,10 @@ public class Company {
     private LocalDate foundingDate;
 
     @OneToMany(mappedBy = "company",
-            cascade = {CascadeType.REMOVE, CascadeType.REFRESH},
+            cascade = {
+                    CascadeType.REMOVE,
+                    CascadeType.REFRESH
+            },
             orphanRemoval = true)
     private Set<Trip> trips;
 

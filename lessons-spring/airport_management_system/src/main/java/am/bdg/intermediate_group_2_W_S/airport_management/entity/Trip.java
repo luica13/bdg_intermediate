@@ -1,6 +1,8 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.entity;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,7 +12,6 @@ import java.util.StringJoiner;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 public class Trip {
@@ -34,7 +35,10 @@ public class Trip {
     @Column(name = "to_city", nullable = false, length = 100)
     private String toCity;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.REMOVE
+    })
     @JoinTable(name = "passenger_trip",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "passenger_id", referencedColumnName = "id"))
