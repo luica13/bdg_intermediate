@@ -1,4 +1,4 @@
-package am.bdg.intermediate_group_2_W_S.airport_management.service;
+package service;
 
 import javax.persistence.EntityManager;
 

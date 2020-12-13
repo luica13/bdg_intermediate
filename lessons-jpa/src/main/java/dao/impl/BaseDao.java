@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContextType;
 import java.util.function.Consumer;
 
 abstract class BaseDao {
+
     @PersistenceContext(type = PersistenceContextType.EXTENDED)
     protected final EntityManager entityManager;
 

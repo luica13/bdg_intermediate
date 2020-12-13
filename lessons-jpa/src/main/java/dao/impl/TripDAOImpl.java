@@ -70,8 +70,10 @@ public class TripDAOImpl extends BaseDao implements TripDAO {
                 for (String line : trips) {
                     String[] data = line.split(",");
                     Company company = em.find(Company.class, Long.parseLong(data[0].trim()));
-                    em.persist(new Trip(company, LocalDateTime.parse(data[1].trim()),
-                            LocalDateTime.parse(data[2].trim()), data[3].trim(), data[4].trim()));
+                    if (company != null)
+                        em.persist(new Trip(company, LocalDateTime.parse(data[1].trim()),
+                                LocalDateTime.parse(data[2].trim()), data[3].trim(), data[4].trim()));
+                    else System.err.println("company by id " + data[0] + " not found!");
                 }
                 em.flush();
             } finally {

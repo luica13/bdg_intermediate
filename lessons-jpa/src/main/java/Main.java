@@ -1,10 +1,9 @@
-import dao.impl.CompanyDAOImpl;
-import dao.impl.PassengerDAOImpl;
-import dao.impl.TripDAOImpl;
 import service.CompanyService;
 import service.PassengerService;
 import service.TripService;
-import service.impl.*;
+import service.impl.CompanyServiceFactory;
+import service.impl.PassengerServiceFactory;
+import service.impl.TripServiceFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

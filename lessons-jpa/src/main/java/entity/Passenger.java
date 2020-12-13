@@ -1,4 +1,4 @@
-package am.bdg.intermediate_group_2_W_S.airport_management.entity;
+package entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

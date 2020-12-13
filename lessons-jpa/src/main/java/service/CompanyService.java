@@ -1,6 +1,6 @@
-package am.bdg.intermediate_group_2_W_S.airport_management.service;
+package service;
 
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
+import entity.Company;
 
 import java.util.List;
 import java.util.Optional;
