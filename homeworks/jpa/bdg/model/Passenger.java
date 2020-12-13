@@ -1,4 +1,4 @@
-package com.bdg;
+package com.bdg.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +20,14 @@ public class Passenger {
     }
 
     public Passenger(String name, String phone, String country, String city) {
+        this.name = name;
+        this.phone = phone;
+        this.country = country;
+        this.city = city;
+    }
+
+    public Passenger(Long pass_id, String name, String phone, String country, String city) {
+        this.pass_id = pass_id;
         this.name = name;
         this.phone = phone;
         this.country = country;
