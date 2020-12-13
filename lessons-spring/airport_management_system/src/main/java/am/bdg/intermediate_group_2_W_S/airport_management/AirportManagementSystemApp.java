@@ -29,9 +29,9 @@ public class AirportManagementSystemApp {
 
     @PostConstruct
     public void loadDataFromFile() {
-        companyService.loadCompaniesInfoFromFileAndCreateAll("root_resource/companies.txt");
-        passengerService.loadPassengersInfoFromFileAndCreateAll("root_resource/passengers.txt");
-        tripService.loadTripsInfoFromFileAndCreateAll("root_resource/trips.txt");
+        companyService.loadEntitiesInfoFromFileAndCreateAll("root_resource/companies.txt");
+        passengerService.loadEntitiesInfoFromFileAndCreateAll("root_resource/passengers.txt");
+        tripService.loadEntitiesInfoFromFileAndCreateAll("root_resource/trips.txt");
         passengerService.loadPassengersTripsInfoFromFile("root_resource/passengers_trips.txt");
     }
 }
