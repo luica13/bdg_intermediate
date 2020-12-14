@@ -25,10 +25,10 @@ public class Passenger {
     @Column(unique = true, nullable = false, length = 150)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Address address;
 
-    @ManyToMany(mappedBy = "passengers", fetch = FetchType.LAZY,
+    @ManyToMany(mappedBy = "passengers", fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.REMOVE,
                     CascadeType.PERSIST
