@@ -1,6 +1,5 @@
 package com.airport.entity;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +22,6 @@ public class Passenger {
 
     private String phone;
 
-    private Address address;
+//    private Address address;
 
 }

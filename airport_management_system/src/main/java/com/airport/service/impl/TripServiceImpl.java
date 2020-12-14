@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.Set;
 
 public class TripServiceImpl implements TripService {
-    @Override
-    public Trip findById(long id) {
-        return null;
-    }
-
-    @Override
-    public List<Trip> getTripsFrom(String city) {
-        return null;
-    }
-
-    @Override
-    public List<Trip> getTripsTo(String city) {
-        return null;
-    }
+//    @Override
+//    public Trip findById(long id) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Trip> getTripsFrom(String city) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Trip> getTripsTo(String city) {
+//        return null;
+//    }
 
     @Override
     public Set<Trip> findAll() {

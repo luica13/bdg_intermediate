@@ -1,17 +1,15 @@
-package com.airport.repository;
+package com.airport.service;
 
 import java.util.Set;
 
-public interface Repository<T,ID> {
-    T findById(ID id);
-
+public interface GenericService<T> {
     Set<T> findAll();
 
     T save(T entity);
 
     T update(T entity);
 
-    void delete(ID id);
+    void delete(T entity);
 
     Set<T> get(int page, int perPage, String sort);
 }

@@ -2,10 +2,12 @@ package com.airport.service;
 
 import com.airport.entity.Passenger;
 import com.airport.entity.Trip;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface PassengerService extends Service<Passenger> {
+@Service
+public interface PassengerService extends GenericService<Passenger> {
     Passenger findById(long id);
 
     List<Passenger> getPassengersOfTrip(long tripNumber);

@@ -16,7 +16,7 @@ public class Trip {
     @Column(name = "trip_number")
     private String tripNumber;
 
-    private Company company;
+//    private Company company;
 
     @Column(name = "time_in")
     private LocalDateTime timeIn;
