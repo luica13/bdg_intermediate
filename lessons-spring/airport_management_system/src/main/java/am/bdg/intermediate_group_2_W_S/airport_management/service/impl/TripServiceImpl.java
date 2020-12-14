@@ -47,7 +47,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public List<Trip> getCertainCrowd(int limit, int offset, String... sortKeys) {
-        if (limit < 1 || offset < 1 || sortKeys == null) throw new IllegalArgumentException("illegal argument present");
+        if (limit < 1 || offset < 0 || sortKeys == null) throw new IllegalArgumentException("illegal argument present");
         PageRequest pageRequest = PageRequest.of(offset, limit, Sort.by(sortKeys));
         return tripRepository.findAll(pageRequest).toList();
     }
