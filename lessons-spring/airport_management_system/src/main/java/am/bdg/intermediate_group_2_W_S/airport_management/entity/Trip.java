@@ -38,7 +38,9 @@ public class Trip {
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.REMOVE
-    }, fetch = FetchType.EAGER)
+    },
+            fetch = FetchType.EAGER
+    )
     @JoinTable(name = "passenger_trip",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "passenger_id", referencedColumnName = "id"))

@@ -1,12 +1,15 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.AddressRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.AddressService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -68,5 +71,13 @@ public class AddressServiceImpl implements AddressService {
     public void removeById(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
         repository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Set<Passenger> getAddressPassengers(Address address) {
+        if (address == null) throw new IllegalArgumentException("address cannot be null");
+        return repository.findById(address.getId())
+                .map(Address::getPassengers).orElseGet(Collections::emptySet);
     }
 }

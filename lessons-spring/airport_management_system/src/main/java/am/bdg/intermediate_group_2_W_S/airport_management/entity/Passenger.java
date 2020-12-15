@@ -28,7 +28,8 @@ public class Passenger {
     @ManyToOne
     private Address address;
 
-    @ManyToMany(mappedBy = "passengers", fetch = FetchType.EAGER,
+    @ManyToMany(mappedBy = "passengers",
+            fetch = FetchType.EAGER,
             cascade = {
                     CascadeType.REMOVE,
                     CascadeType.PERSIST
