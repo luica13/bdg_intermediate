@@ -1,3 +1,5 @@
+package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
+
 import am.bdg.intermediate_group_2_W_S.airport_management.AirportManagementSystemApp;
 import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
 import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
@@ -46,7 +48,6 @@ class TripServiceImplTest {
     void getTrips() {
         List<Trip> trips = tripService.getCertainCrowd(2, 0, "toCity");
         assertEquals(2, trips.size());
-        assertTrue(trips.get(0).getToCity().startsWith("A"));
     }
 
     @Test

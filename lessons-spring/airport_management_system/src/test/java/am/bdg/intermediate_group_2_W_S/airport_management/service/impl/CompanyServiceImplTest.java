@@ -1,3 +1,5 @@
+package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
+
 import am.bdg.intermediate_group_2_W_S.airport_management.AirportManagementSystemApp;
 import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.CompanyService;
@@ -23,8 +25,9 @@ class CompanyServiceImplTest {
     @Test
     void getCompany() {
         Optional<Company> optionalCompany = service.get(5L);
-        if (optionalCompany.isPresent()) assertEquals(5, optionalCompany.get().getId());
-        else Assertions.fail();
+        optionalCompany.ifPresentOrElse(
+                company -> assertEquals(5, company.getId()),
+                Assertions::fail);
     }
 
     @Test

@@ -20,7 +20,7 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Company company;
 
     @Column(name = "time_in", nullable = false, columnDefinition = "TIMESTAMP")
@@ -39,8 +39,7 @@ public class Trip {
             CascadeType.PERSIST,
             CascadeType.REMOVE
     },
-            fetch = FetchType.EAGER
-    )
+            fetch = FetchType.EAGER)
     @JoinTable(name = "passenger_trip",
             joinColumns = @JoinColumn(name = "trip_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "passenger_id", referencedColumnName = "id"))

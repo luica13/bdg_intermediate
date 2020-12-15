@@ -35,8 +35,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Set<Company> getAll() {
-        return Stream.of(companyRepository.findAll().iterator().next())
-                .collect(Collectors.toSet());
+        Set<Company> companies = new HashSet<>();
+        companyRepository.findAll().forEach(companies::add);
+        return companies;
     }
 
     @Override

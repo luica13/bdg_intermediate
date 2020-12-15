@@ -15,10 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -41,8 +38,9 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public Set<Trip> getAll() {
-        return Stream.of(tripRepository.findAll().iterator().next())
-                .collect(Collectors.toSet());
+        Set<Trip> trips = new HashSet<>();
+        tripRepository.findAll().forEach(trips::add);
+        return trips;
     }
 
     @Override
@@ -82,8 +80,9 @@ public class TripServiceImpl implements TripService {
     @Override
     public Set<Passenger> getTripPassengers(Trip trip) {
         if (trip == null) throw new IllegalArgumentException("trip cannot be null");
-        trip = tripRepository.findById(trip.getId()).orElse(null);
-        return trip == null ? Collections.emptySet() : trip.getPassengers();
+        return new HashSet<>(tripRepository.findById(trip.getId())
+                .map(Trip::getPassengers)
+                .orElseGet(Collections::emptySet));
     }
 
     @Override

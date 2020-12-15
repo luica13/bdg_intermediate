@@ -42,8 +42,9 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public Set<Passenger> getAll() {
-        return Stream.of(passengerRepository.findAll().iterator().next())
-                .collect(Collectors.toSet());
+        Set<Passenger> passengers = new HashSet<>();
+        passengerRepository.findAll().forEach(passengers::add);
+        return passengers;
     }
 
     @Override
@@ -78,10 +79,11 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Trip> getTripsOfPassenger(Passenger passenger) {
         if (passenger == null) throw new IllegalArgumentException("passenger cannot be null");
-        passenger = passengerRepository.findById(passenger.getId()).orElse(null);
-        return passenger == null ? Collections.emptySet() : passenger.getTrips();
+        return new HashSet<>(passengerRepository.findById(passenger.getId())
+                .map(Passenger::getTrips).orElseGet(Collections::emptySet));
     }
 
 

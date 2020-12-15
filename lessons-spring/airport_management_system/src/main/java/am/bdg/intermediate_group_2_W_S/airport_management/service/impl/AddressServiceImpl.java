@@ -9,12 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.*;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -33,8 +28,9 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Set<Address> getAll() {
-        return Stream.of(repository.findAll().iterator().next())
-                .collect(Collectors.toSet());
+        Set<Address> addresses = new HashSet<>();
+        repository.findAll().forEach(addresses::add);
+        return addresses;
     }
 
     @Override
@@ -74,10 +70,10 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Set<Passenger> getAddressPassengers(Address address) {
         if (address == null) throw new IllegalArgumentException("address cannot be null");
-        return repository.findById(address.getId())
-                .map(Address::getPassengers).orElseGet(Collections::emptySet);
+        return new HashSet<>(repository.findById(address.getId())
+                .map(Address::getPassengers).orElseGet(Collections::emptySet));
     }
 }
