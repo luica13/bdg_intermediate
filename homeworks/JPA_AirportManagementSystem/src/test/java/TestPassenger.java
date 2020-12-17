@@ -21,7 +21,7 @@ public class TestPassenger {
     public void testGetById()
     {
         Passenger p2 = Passenger.getById(2);
-        Assertions.assertEquals(p2.getName(),"Valod");
+        Assertions.assertEquals(p2.getName(),"Gevor");
     }
 
 }

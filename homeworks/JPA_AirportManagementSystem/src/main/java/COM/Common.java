@@ -34,11 +34,14 @@ public class Common {
 
     public static <T>T save( T value)
     {
+        //T tValue = value.
         EntityManager em =HibernateUtil.getEntityManager();
         em.persist(value);
-        T tValue = (T)em.getReference(value.getClass(),value);
+        em.refresh(value);
+        em.flush();
+        //T tValue = (T) em.getReference(value.getClass(),value);
         em.close();
-        return tValue;
+        return value;
 
     }
 

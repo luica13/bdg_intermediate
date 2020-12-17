@@ -57,6 +57,11 @@ public class Company {
         return Common.getAll(Company.class,"company" );
     }
 
+    public Company save()
+    {
+        return Common.save(this);
+    }
+
     public static Company save(Company company)
     {
         return Common.save(company);
