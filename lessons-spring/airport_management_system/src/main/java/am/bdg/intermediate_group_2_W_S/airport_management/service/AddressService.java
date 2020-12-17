@@ -1,7 +1,7 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service;
 
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Address;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
 
 import java.util.Set;
 

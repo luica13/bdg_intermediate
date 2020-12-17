@@ -1,7 +1,7 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Address;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.AddressRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.AddressService;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +21,9 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<Address> get(Long id) {
+    public Address get(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
-        return repository.findById(id);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -41,10 +41,15 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<Address> create(Address address) {
-        if (address == null) throw new IllegalArgumentException("address cannot be null");
-        return Optional.of(repository.save(address));
+    public Address create(Address entity) {
+        return null;
     }
+
+//    @Override
+//    public Optional<Address> create(Address address) {
+//        if (address == null) throw new IllegalArgumentException("address cannot be null");
+//        return Optional.of(repository.save(address));
+//    }
 
     @Override
     public void loadEntitiesInfoFromFileAndCreateAll(String path) {

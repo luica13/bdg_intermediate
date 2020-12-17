@@ -1,4 +1,4 @@
-package am.bdg.intermediate_group_2_W_S.airport_management.entity;
+package am.bdg.intermediate_group_2_W_S.airport_management.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,8 +1,8 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Trip;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Company;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Trip;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.CompanyRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.TripRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.TripService;
@@ -31,9 +31,9 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Optional<Trip> get(Long id) {
+    public Trip get(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less than 1");
-        return tripRepository.findById(id);
+        return tripRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -51,10 +51,15 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Optional<Trip> create(Trip trip) {
-        if (trip == null) throw new IllegalArgumentException("trip cannot be null");
-        return Optional.of(tripRepository.save(trip));
+    public Trip create(Trip entity) {
+        return null;
     }
+
+//    @Override
+//    public Optional<Trip> create(Trip trip) {
+//        if (trip == null) throw new IllegalArgumentException("trip cannot be null");
+//        return Optional.of(tripRepository.save(trip));
+//    }
 
     @Override
     @Transactional

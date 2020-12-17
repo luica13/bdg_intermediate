@@ -1,8 +1,8 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Trip;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Address;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.model.Trip;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.AddressRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.PassengerRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.TripRepository;
@@ -35,9 +35,9 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Optional<Passenger> get(Long id) {
+    public Passenger get(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less than 1");
-        return passengerRepository.findById(id);
+        return passengerRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -55,10 +55,15 @@ public class PassengerServiceImpl implements PassengerService {
     }
 
     @Override
-    public Optional<Passenger> create(Passenger passenger) {
-        if (passenger == null) throw new IllegalArgumentException("passenger cannot be null");
-        return Optional.of(passengerRepository.save(passenger));
+    public Passenger create(Passenger entity) {
+        return null;
     }
+
+//    @Override
+//    public Optional<Passenger> create(Passenger passenger) {
+//        if (passenger == null) throw new IllegalArgumentException("passenger cannot be null");
+//        return Optional.of(passengerRepository.save(passenger));
+//    }
 
     @Override
     public Optional<Passenger> edit(Passenger passenger) {
