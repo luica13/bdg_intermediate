@@ -1,7 +1,5 @@
 package com.airport.entity;
 
-import com.airport.service.impl.CommonService;
-
 import javax.persistence.*;
 import java.util.List;
 

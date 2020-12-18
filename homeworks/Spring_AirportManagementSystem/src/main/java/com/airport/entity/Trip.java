@@ -1,11 +1,7 @@
 package com.airport.entity;
 
-import com.airport.service.impl.CommonService;
-
 import javax.persistence.*;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Trip {
