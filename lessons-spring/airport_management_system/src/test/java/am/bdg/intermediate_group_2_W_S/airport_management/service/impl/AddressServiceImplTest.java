@@ -1,8 +1,8 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.AirportManagementSystemApp;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Address;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.AddressService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

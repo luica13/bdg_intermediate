@@ -1,7 +1,7 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.AirportManagementSystemApp;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Company;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.CompanyService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class CompanyServiceImplTest {
 //                company -> assertEquals(5, company.getId()),
 //                Assertions::fail);
 //    }
-
+//
 //    @Test
 //    void findAll() {
 //        Set<Company> companies = service.getAll();

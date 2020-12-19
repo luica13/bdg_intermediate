@@ -1,9 +1,9 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.AirportManagementSystemApp;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Company;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Trip;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Trip;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.CompanyService;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.TripService;
 import org.junit.jupiter.api.Assertions;

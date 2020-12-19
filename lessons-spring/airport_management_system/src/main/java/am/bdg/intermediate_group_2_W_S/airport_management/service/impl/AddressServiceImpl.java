@@ -1,15 +1,18 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Address;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.AddressRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.AddressService;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.AddressDto;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.PassengerDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -21,35 +24,53 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address get(Long id) {
+    public AddressDto get(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
-        return repository.findById(id).orElse(null);
+        Optional<Address> optionalAddress = repository.findById(id);
+        if (optionalAddress.isPresent()) {
+            Address address = optionalAddress.get();
+            return AddressDto.builder()
+                    .city(address.getCity())
+                    .country(address.getCountry())
+                    .id(address.getId())
+                    .build();
+        } else throw new EntityNotFoundException(String.format("address by id: %s not found.", id));
     }
 
     @Override
-    public Set<Address> getAll() {
-        Set<Address> addresses = new HashSet<>();
-        repository.findAll().forEach(addresses::add);
+    public Set<AddressDto> getAll() {
+        Set<AddressDto> addresses = new HashSet<>();
+        for (Address address : repository.findAll())
+            addresses.add(AddressDto.builder()
+                    .city(address.getCity())
+                    .country(address.getCountry())
+                    .id(address.getId())
+                    .build());
         return addresses;
     }
 
     @Override
-    public List<Address> getCertainCrowd(int limit, int offset, String... sortKeys) {
-        if (limit < 1 || offset < 1 || sortKeys == null) throw new IllegalArgumentException("illegal argument present");
-        PageRequest pageRequest = PageRequest.of(offset, limit, Sort.by(sortKeys));
-        return repository.findAll(pageRequest).toList();
+    public List<AddressDto> getCertainCrowd(int limit, int offset, String... sortKeys) {
+        if (limit < 1 || offset < 0) throw new IllegalArgumentException("illegal argument present");
+        PageRequest pageRequest = PageRequest.of(offset, limit);
+        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr( Sort.by(sortKeys));
+        return repository.findAll(pageRequest).map(address -> AddressDto.builder()
+                .city(address.getCity())
+                .country(address.getCountry())
+                .id(address.getId())
+                .build()).toList();
     }
 
     @Override
-    public Address create(Address entity) {
-        return null;
+    public AddressDto create(AddressDto addressDto) {
+        if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
+        Address saved = repository.save(new Address(addressDto.getCountry(), addressDto.getCity()));
+        return AddressDto.builder()
+                .city(saved.getCity())
+                .country(saved.getCountry())
+                .id(saved.getId())
+                .build();
     }
-
-//    @Override
-//    public Optional<Address> create(Address address) {
-//        if (address == null) throw new IllegalArgumentException("address cannot be null");
-//        return Optional.of(repository.save(address));
-//    }
 
     @Override
     public void loadEntitiesInfoFromFileAndCreateAll(String path) {
@@ -57,15 +78,24 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Optional<Address> edit(Address address) {
-        if (address == null) throw new IllegalArgumentException("address cannot be null");
-        return Optional.of(repository.save(address));
+    public AddressDto edit(AddressDto addressDto) {
+        if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
+        Address editing = new Address(addressDto.getCountry(), addressDto.getCity());
+        editing.setId(addressDto.getId());
+        editing = repository.save(editing);
+        return AddressDto.builder()
+                .city(editing.getCity())
+                .country(editing.getCountry())
+                .id(editing.getId())
+                .build();
     }
 
     @Override
-    public void remove(Address address) {
-        if (address == null) throw new IllegalArgumentException("address cannot be null");
-        repository.delete(address);
+    public void remove(AddressDto addressDto) {
+        if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
+        Address deleting = new Address(addressDto.getCountry(), addressDto.getCity());
+        deleting.setId(addressDto.getId());
+        repository.delete(deleting);
     }
 
     @Override
@@ -76,9 +106,14 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     @Transactional(readOnly = true)
-    public Set<Passenger> getAddressPassengers(Address address) {
-        if (address == null) throw new IllegalArgumentException("address cannot be null");
-        return new HashSet<>(repository.findById(address.getId())
-                .map(Address::getPassengers).orElseGet(Collections::emptySet));
+    public Set<PassengerDto> getAddressPassengers(AddressDto addressDto) {
+        if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
+        return repository.findById(addressDto.getId()).map(Address::getPassengers).get()
+                .stream().map(passenger -> PassengerDto.builder()
+                        .id(passenger.getId())
+                        .name(passenger.getName())
+                        .phone(passenger.getPhone())
+                        .build())
+                .collect(Collectors.toSet());
     }
 }

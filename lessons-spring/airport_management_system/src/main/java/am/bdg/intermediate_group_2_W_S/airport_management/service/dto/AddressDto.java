@@ -1,17 +1,17 @@
-package am.bdg.intermediate_group_2_W_S.airport_management.controller.model;
+package am.bdg.intermediate_group_2_W_S.airport_management.service.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-@AllArgsConstructor
+
 @Data
-public class Address {
+@Builder
+@AllArgsConstructor
+public class AddressDto {
 
     private long id;
 
@@ -25,5 +25,5 @@ public class Address {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Passenger> passengers;
+    private Set<PassengerDto> passengers;
 }

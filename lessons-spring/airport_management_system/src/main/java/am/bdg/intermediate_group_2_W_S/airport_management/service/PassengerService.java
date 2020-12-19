@@ -1,18 +1,18 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service;
 
 
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Passenger;
-import am.bdg.intermediate_group_2_W_S.airport_management.model.Trip;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.PassengerDto;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.TripDto;
 
 import java.util.Set;
 
-public interface PassengerService extends BaseService<Passenger> {
+public interface PassengerService extends BaseService<PassengerDto> {
 
-    Set<Trip> getTripsOfPassenger(Passenger passenger);
+    Set<TripDto> getTripsOfPassenger(PassengerDto passenger);
 
-    boolean registerTrip(Trip trip, Passenger passenger);
+    boolean registerTrip(TripDto trip, PassengerDto passenger);
 
-    boolean cancelTrip(Trip trip, Passenger passenger);
+    boolean cancelTrip(TripDto trip, PassengerDto passenger);
 
     void loadPassengersTripsInfoFromFile(String path);
 
