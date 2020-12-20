@@ -49,8 +49,20 @@ public class PassengerServiceImpl implements PassengerService {
         Optional<Passenger> optionalPassenger = passengerRepository.findById(id);
         if (optionalPassenger.isPresent()) {
             Passenger passenger = optionalPassenger.get();
+            Address address = passenger.getAddress();
             return PassengerDto.builder()
                     .id(passenger.getId())
+                    .address(AddressDto.builder()
+                            .id(address.getId())
+                            .country(address.getCountry())
+                            .city(address.getCity()).build())
+                    .trips(passenger.getTrips().stream().map(trip -> TripDto.builder()
+                            .id(trip.getId())
+                            .timeOut(trip.getTimeOut())
+                            .timeIn(trip.getTimeIn())
+                            .fromCity(trip.getFromCity())
+                            .toCity(trip.getToCity())
+                            .build()).collect(Collectors.toSet()))
                     .name(passenger.getName())
                     .phone(passenger.getPhone())
                     .build();
@@ -73,7 +85,7 @@ public class PassengerServiceImpl implements PassengerService {
     public List<PassengerDto> getCertainCrowd(int limit, int offset, String... sortKeys) {
         if (limit < 1 || offset < 1) throw new IllegalArgumentException("illegal argument present");
         PageRequest pageRequest = PageRequest.of(offset, limit);
-        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr( Sort.by(sortKeys));
+        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr(Sort.by(sortKeys));
         return passengerRepository.findAll(pageRequest).map(passenger -> PassengerDto.builder()
                 .id(passenger.getId())
                 .name(passenger.getName())
@@ -142,6 +154,10 @@ public class PassengerServiceImpl implements PassengerService {
                                 .id(trip.getCompany().getId())
                                 .name(trip.getCompany().getName())
                                 .foundingDate(trip.getCompany().getFoundingDate()).build())
+                        .passengers(trip.getPassengers().stream().map(passenger1 -> PassengerDto.builder()
+                                .id(passenger1.getId())
+                                .name(passenger1.getName())
+                                .phone(passenger1.getPhone()).build()).collect(Collectors.toSet()))
                         .fromCity(trip.getFromCity())
                         .toCity(trip.getToCity())
                         .timeIn(trip.getTimeIn())
@@ -157,7 +173,7 @@ public class PassengerServiceImpl implements PassengerService {
     public boolean registerTrip(TripDto tripDto, PassengerDto passengerDto) {
         if (passengerDto == null) throw new IllegalArgumentException("passenger cannot be null");
         if (tripDto == null) throw new IllegalArgumentException("trip cannot be null");
-        Trip trip  = tripRepository.findById(tripDto.getId()).orElse(null);
+        Trip trip = tripRepository.findById(tripDto.getId()).orElse(null);
         Passenger passenger = passengerRepository.findById(passengerDto.getId()).orElse(null);
         if (trip != null && passenger != null) {
             if (trip.getPassengers() == null) trip.setPassengers(new HashSet<>());
