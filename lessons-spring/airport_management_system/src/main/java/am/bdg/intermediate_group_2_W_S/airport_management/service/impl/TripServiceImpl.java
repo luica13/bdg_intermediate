@@ -83,7 +83,7 @@ public class TripServiceImpl implements TripService {
     public List<TripDto> getCertainCrowd(int limit, int offset, String... sortKeys) {
         if (limit < 1 || offset < 0) throw new IllegalArgumentException("illegal argument present");
         PageRequest pageRequest = PageRequest.of(offset, limit);
-        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr( Sort.by(sortKeys));
+        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr(Sort.by(sortKeys));
         return tripRepository.findAll(pageRequest).map(trip -> {
             Company company = trip.getCompany();
             return TripDto.builder()
@@ -153,6 +153,13 @@ public class TripServiceImpl implements TripService {
                     return PassengerDto.builder()
                             .id(passenger.getId())
                             .address(addressDto)
+                            .trips(passenger.getTrips().stream().map(trip -> TripDto.builder()
+                                    .id(trip.getId())
+                                    .fromCity(trip.getFromCity())
+                                    .toCity(trip.getToCity())
+                                    .timeIn(trip.getTimeIn())
+                                    .timeOut(trip.getTimeOut()).build()
+                            ).collect(Collectors.toSet()))
                             .name(passenger.getName())
                             .phone(passenger.getPhone()).build();
                 }).collect(Collectors.toSet());
@@ -163,7 +170,9 @@ public class TripServiceImpl implements TripService {
         if (tripDto == null) throw new IllegalArgumentException("trip cannot be null");
         Company company = new Company(tripDto.getCompany().getName(), tripDto.getCompany().getFoundingDate());
         company.setId(tripDto.getCompany().getId());
-        Trip saved = tripRepository.save(new Trip(company, tripDto.getTimeIn(), tripDto.getTimeOut(), tripDto.getFromCity(), tripDto.getToCity()));
+        Trip saved = new Trip(company, tripDto.getTimeIn(), tripDto.getTimeOut(), tripDto.getFromCity(), tripDto.getToCity());
+        saved.setId(tripDto.getId());
+        saved = tripRepository.save(saved);
         company = saved.getCompany();
         return TripDto.builder()
                 .id(saved.getId())
