@@ -20,7 +20,7 @@ import java.util.Optional;
 public class CompanyController {
     @Autowired
     private final CompanyService companyService;
-
+    //TODO bad practice to have repository in controller
     CompanyRepository companyRepository = null;
 
     public CompanyController(CompanyService companyService) {
@@ -42,6 +42,7 @@ public class CompanyController {
     @DeleteMapping("/company/{id}")
     public void deleteById(@PathVariable long id){
        CompanyDto companyDto = null;
+       //TODO why we need this?
         companyRepository.deleteById(id);
     }
 

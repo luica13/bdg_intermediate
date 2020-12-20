@@ -22,6 +22,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public TripDto get(Long id) {
+        //same here
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
         Optional<Company> optionalCompany = companyRepository.findById(id);
         if(optionalCompany.isPresent()) {
@@ -30,6 +31,7 @@ public class CompanyServiceImpl implements CompanyService {
                     company.getFoundingDate(), company.getTrips());
         }
         throw new EntityNotFoundException(String.format("Company with id:%s not found", id));
+        //where are you catching these exceptions?
     }
 
     @Override
@@ -46,7 +48,9 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDto create(CompanyDto companyDto) {
         if (companyDto == null) throw new IllegalArgumentException("company cannot be null");
         Company company = new Company(companyDto.getName(), companyDto.getFoundingDate());
+        //why keep new object?
         Company saveComp = companyRepository.save(company);
+        //do we need to load the trips as well?
         return new CompanyDto(saveComp.getId(), saveComp.getName(), saveComp.getFoundingDate(), saveComp.getTrips());
     }
 

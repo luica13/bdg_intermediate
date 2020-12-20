@@ -37,6 +37,8 @@ public class TripServiceImpl implements TripService {
     @Override
     public List<Trip> getTripsFromCity(String fromCity) {
         if (fromCity == null) throw new IllegalArgumentException("fromCity cannot be null");
+
+        //TODO what about empty?
         return tripRepository.getAllByFromCity(fromCity);
     }
 
@@ -56,6 +58,7 @@ public class TripServiceImpl implements TripService {
 
     @Override
     public TripDto get(Long id) {
+        //Long is an object, better to use compareTo
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
         Optional<Trip> optionalPassenger = tripRepository.findById(id);
         if(optionalPassenger.isPresent()) {

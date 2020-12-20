@@ -24,6 +24,7 @@ public class PassengerController {
     @Autowired
     private final PassengerService passengerService;
 
+    //TODO same here
     private PassengerRepository passengerRepository = null;
 
     public PassengerController(PassengerService passengerService) {
@@ -49,6 +50,7 @@ public class PassengerController {
     }
 
     @PutMapping("/passenger/{id}")
+    //TODO student?
     public ResponseEntity<Object> updateStudent(@RequestBody Passenger passenger, @PathVariable long id) {
 
         Optional<Passenger> passengerOptional = passengerRepository.findById(id);
@@ -59,14 +61,17 @@ public class PassengerController {
         passenger.setId(id);
 
         passengerRepository.save(passenger);
-
+//TODO nocontent or ok?
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping
     public PassengerDto create(@RequestBody @Valid Passenger passenger) {
+        //TODO what are you validating here?
+        // id for post?
         PassengerDto passengerDto = new PassengerDto(passenger.getId(), passenger.getName(),
                 passenger.getPhone(), passenger.getCountry(),passenger.getCity());
+        //cannot find such a method?
         passengerDto = passengerService.create(passengerDto);
         return passengerDto;
     }
