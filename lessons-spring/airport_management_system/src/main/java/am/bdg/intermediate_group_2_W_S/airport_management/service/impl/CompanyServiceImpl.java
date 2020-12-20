@@ -1,13 +1,16 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Trip;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.CompanyRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.CompanyService;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.CompanyDto;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.TripDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
@@ -30,6 +33,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    @Transactional
     public CompanyDto get(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
         Optional<Company> optionalCompany = companyRepository.findById(id);
@@ -37,6 +41,13 @@ public class CompanyServiceImpl implements CompanyService {
             Company company = optionalCompany.get();
             return CompanyDto.builder()
                     .id(company.getId())
+                    .trips(company.getTrips().stream().map(trip -> TripDto.builder()
+                            .id(trip.getId())
+                            .fromCity(trip.getFromCity())
+                            .toCity(trip.getToCity())
+                            .timeIn(trip.getTimeIn())
+                            .timeOut(trip.getTimeOut())
+                            .build()).collect(Collectors.toSet()))
                     .name(company.getName())
                     .foundingDate(company.getFoundingDate())
                     .build();
@@ -59,7 +70,7 @@ public class CompanyServiceImpl implements CompanyService {
     public List<CompanyDto> getCertainCrowd(int limit, int offset, String... sortKeys) {
         if (limit < 1 || offset < 0) throw new IllegalArgumentException("illegal argument present");
         PageRequest pageRequest = PageRequest.of(offset, limit);
-        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr( Sort.by(sortKeys));
+        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr(Sort.by(sortKeys));
         return companyRepository.findAll(pageRequest).map(company -> CompanyDto.builder()
                 .id(company.getId())
                 .name(company.getName())
@@ -103,6 +114,10 @@ public class CompanyServiceImpl implements CompanyService {
     public CompanyDto edit(CompanyDto companyDto) {
         if (companyDto == null) throw new IllegalArgumentException("company cannot be null");
         Company editing = new Company(companyDto.getName(), companyDto.getFoundingDate());
+        Company finalEditing = editing;
+        editing.setTrips(companyDto.getTrips().stream()
+                .map(tripDto -> new Trip(finalEditing, tripDto.getTimeIn(), tripDto.getTimeOut(), tripDto.getFromCity(), tripDto.getToCity()))
+                .collect(Collectors.toSet()));
         editing.setId(companyDto.getId());
         editing = companyRepository.save(editing);
         return CompanyDto.builder()

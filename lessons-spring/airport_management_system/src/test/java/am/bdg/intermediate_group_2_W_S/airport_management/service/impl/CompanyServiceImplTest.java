@@ -1,17 +1,16 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.AirportManagementSystemApp;
-import am.bdg.intermediate_group_2_W_S.airport_management.entity.Company;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.CompanyService;
-import org.junit.jupiter.api.Assertions;
+import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.CompanyDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,56 +21,66 @@ class CompanyServiceImplTest {
     @Autowired
     private CompanyService service;
 
-//    @Test
-//    void getCompany() {
-//        Optional<Company> optionalCompany = service.get(5L);
-//        optionalCompany.ifPresentOrElse(
-//                company -> assertEquals(5, company.getId()),
-//                Assertions::fail);
-//    }
-//
-//    @Test
-//    void findAll() {
-//        Set<Company> companies = service.getAll();
-//        assertFalse(companies.isEmpty());
-//    }
-//
-//    @Test
-//    void testGetCompanyBySortingAndPaging() {
-//        List<Company> companies = service.getCertainCrowd(20, 1, "name");
-//        assertEquals(20, companies.size());
-//        assertTrue(companies.get(0).getName().startsWith("A"));
-//    }
-//
-//    @Test
-//    void create() {
-//        Optional<Company> company = service.create(new Company("Hanssa", LocalDate.of(1999, Month.AUGUST, 7)));
-//        if (company.isPresent()) {
-//            company = service.get(company.get().getId());
-//            if (company.isPresent()) assertEquals("Hanssa", company.get().getName());
-//            else Assertions.fail();
-//        } else Assertions.fail();
-//    }
-//
-//    @Test
-//    void edit() {
-//        final String newName = "AirLane";
-//        final Long id = 635L;
-//        Optional<Company> company = service.get(id);
-//        company.ifPresent(c -> {
-//            c.setName(newName);
-//            service.edit(c);
-//        });
-//        company = service.get(id);
-//        if (company.isPresent()) assertEquals(newName, company.get().getName());
-//        else Assertions.fail();
-//    }
-//
-//    @Test
-//    void remove() {
-//        final Long id = 211L;
-//        Optional<Company> optionalCompany = service.get(id);
-//        optionalCompany.ifPresentOrElse(service::remove, Assertions::fail);
-//        assertNull(service.get(id).orElse(null));
-//    }
+    @Test
+    void getCompany() {
+        CompanyDto companyDto = service.get(5L);
+        assertNotNull(companyDto);
+        assertEquals(5, companyDto.getId());
+    }
+
+    @Test
+    void findAll() {
+        Set<CompanyDto> companies = service.getAll();
+        assertFalse(companies.isEmpty());
+    }
+
+    @Test
+    void testGetCompanyBySortingAndPaging() {
+        List<CompanyDto> companies = service.getCertainCrowd(20, 1, "name");
+        assertEquals(20, companies.size());
+    }
+
+    @Test
+    void create() {
+        CompanyDto company = service.create(CompanyDto.builder()
+                .name("Hanssa")
+                .foundingDate(LocalDate.of(1999, Month.AUGUST, 7))
+                .build());
+        assertNotNull(company);
+        company = service.get(company.getId());
+        assertNotNull(company);
+        assertEquals("Hanssa", company.getName());
+    }
+
+    @Test
+    void edit() {
+        final String newName = "AirLane";
+        final Long id = 124L;
+        CompanyDto company = service.get(id);
+        assertNotNull(company);
+        company.setName(newName);
+        company = service.edit(company);
+        assertNotNull(company);
+        company = service.get(id);
+        assertNotNull(company);
+        assertEquals(newName, company.getName());
+    }
+
+    @Test
+    void remove() {
+        final Long id = 211L;
+        CompanyDto company = service.get(id);
+        assertNotNull(company);
+        service.remove(company);
+        assertThrows(EntityNotFoundException.class, () -> service.get(id));
+    }
+
+    @Test
+    void removeById() {
+        final Long id = 101L;
+        CompanyDto company = service.get(id);
+        assertNotNull(company);
+        service.removeById(id);
+        assertThrows(EntityNotFoundException.class, () -> service.get(id));
+    }
 }
