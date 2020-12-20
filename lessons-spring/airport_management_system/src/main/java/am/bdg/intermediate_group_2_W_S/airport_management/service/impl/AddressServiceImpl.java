@@ -1,6 +1,7 @@
 package am.bdg.intermediate_group_2_W_S.airport_management.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.airport_management.entity.Address;
+import am.bdg.intermediate_group_2_W_S.airport_management.entity.Passenger;
 import am.bdg.intermediate_group_2_W_S.airport_management.repository.AddressRepository;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.AddressService;
 import am.bdg.intermediate_group_2_W_S.airport_management.service.dto.AddressDto;
@@ -24,6 +25,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
+    @Transactional
     public AddressDto get(Long id) {
         if (id < 1) throw new IllegalArgumentException("id cannot be less then 1");
         Optional<Address> optionalAddress = repository.findById(id);
@@ -33,6 +35,12 @@ public class AddressServiceImpl implements AddressService {
                     .city(address.getCity())
                     .country(address.getCountry())
                     .id(address.getId())
+                    .passengers(address.getPassengers().stream().map(passenger ->
+                            PassengerDto.builder()
+                                    .id(passenger.getId())
+                                    .name(passenger.getName())
+                                    .phone(passenger.getPhone())
+                                    .build()).collect(Collectors.toSet()))
                     .build();
         } else throw new EntityNotFoundException(String.format("address by id: %s not found.", id));
     }
@@ -53,7 +61,7 @@ public class AddressServiceImpl implements AddressService {
     public List<AddressDto> getCertainCrowd(int limit, int offset, String... sortKeys) {
         if (limit < 1 || offset < 0) throw new IllegalArgumentException("illegal argument present");
         PageRequest pageRequest = PageRequest.of(offset, limit);
-        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr( Sort.by(sortKeys));
+        if (sortKeys != null && sortKeys.length != 0) pageRequest.getSortOr(Sort.by(sortKeys));
         return repository.findAll(pageRequest).map(address -> AddressDto.builder()
                 .city(address.getCity())
                 .country(address.getCountry())
@@ -81,6 +89,12 @@ public class AddressServiceImpl implements AddressService {
     public AddressDto edit(AddressDto addressDto) {
         if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
         Address editing = new Address(addressDto.getCountry(), addressDto.getCity());
+        Address finalEditing = editing;
+        editing.setPassengers(addressDto.getPassengers().stream().map(passengerDto -> {
+            Passenger passenger = new Passenger(passengerDto.getName(), passengerDto.getPhone(), finalEditing);
+            passenger.setId(passengerDto.getId());
+            return passenger;
+        }).collect(Collectors.toSet()));
         editing.setId(addressDto.getId());
         editing = repository.save(editing);
         return AddressDto.builder()
@@ -95,6 +109,12 @@ public class AddressServiceImpl implements AddressService {
         if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
         Address deleting = new Address(addressDto.getCountry(), addressDto.getCity());
         deleting.setId(addressDto.getId());
+        deleting.setPassengers(addressDto.getPassengers().stream().map(passengerDto -> {
+            Passenger passenger = new Passenger(passengerDto.getName(), passengerDto.getPhone(), deleting);
+            passenger.setId(passengerDto.getId());
+            passenger.setAddress(null);
+            return passenger;
+        }).collect(Collectors.toSet()));
         repository.delete(deleting);
     }
 
@@ -109,11 +129,19 @@ public class AddressServiceImpl implements AddressService {
     public Set<PassengerDto> getAddressPassengers(AddressDto addressDto) {
         if (addressDto == null) throw new IllegalArgumentException("address cannot be null");
         return repository.findById(addressDto.getId()).map(Address::getPassengers).get()
-                .stream().map(passenger -> PassengerDto.builder()
-                        .id(passenger.getId())
-                        .name(passenger.getName())
-                        .phone(passenger.getPhone())
-                        .build())
+                .stream().map(passenger -> {
+                    Address address = passenger.getAddress();
+                    return PassengerDto.builder()
+                            .id(passenger.getId())
+                            .address(AddressDto.builder()
+                                    .id(address.getId())
+                                    .country(address.getCountry())
+                                    .city(address.getCity())
+                                    .build())
+                            .name(passenger.getName())
+                            .phone(passenger.getPhone())
+                            .build();
+                })
                 .collect(Collectors.toSet());
     }
 }
