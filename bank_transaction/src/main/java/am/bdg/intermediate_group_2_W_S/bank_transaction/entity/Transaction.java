@@ -19,7 +19,7 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @ManyToOne
-    private BancAcount bancAcount;
+    private BankAcount bankAcount;
     private LocalDate createdDate;
 
     @Enumerated(EnumType.STRING)

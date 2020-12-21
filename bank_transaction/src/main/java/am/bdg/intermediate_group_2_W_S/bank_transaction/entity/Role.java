@@ -13,7 +13,8 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Roles {
+@Table(name = "rols")
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

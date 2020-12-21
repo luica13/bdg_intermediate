@@ -11,7 +11,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-public class BancAcount {
+public class BankAcount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -19,7 +19,7 @@ public class BancAcount {
 
     @ManyToOne(targetEntity = User.class)
     private  User user;
-    @OneToMany(mappedBy = "bancAcount")
+    @OneToMany(mappedBy = "bankAcount")
     private Set<Transaction> transactions;
     private String accountNumber;
 

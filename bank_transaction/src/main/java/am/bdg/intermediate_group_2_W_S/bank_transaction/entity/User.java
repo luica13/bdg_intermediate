@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +23,12 @@ public class User {
 
 
     @ManyToMany
-    private Set<Roles> role;
+    private Set<Role> role;
     @OneToMany(mappedBy = "user")
-    private Set<BancAcount> bancAcounts;
+    private Set<BankAcount> bankAcounts;
     private String pass;
+    @Embedded
+    private Contact contact;
 
     @Embeddable
     private class Contact{
