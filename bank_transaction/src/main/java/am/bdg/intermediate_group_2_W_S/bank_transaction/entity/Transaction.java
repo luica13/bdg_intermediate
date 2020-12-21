@@ -18,14 +18,18 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @ManyToOne
-    private BancAcount bancAcount;
+    private BankAccount bankAccount;
+
     private LocalDate createdDate;
 
     @Enumerated(EnumType.STRING)
-    TransactionType type;
+    private TransactionType type;
+
     @Enumerated(EnumType.STRING)
-    TransactionStatus status;
-    BigDecimal  amount;//if(type=DEPOSIT)amount>0 else amount<0
+    private TransactionStatus status;
+
+    private BigDecimal amount;//if(type=DEPOSIT)amount>0 else amount<0
 
 }

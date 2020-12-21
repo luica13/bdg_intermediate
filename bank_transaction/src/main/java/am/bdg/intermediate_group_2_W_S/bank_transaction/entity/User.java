@@ -1,9 +1,9 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.entity;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,20 +20,22 @@ public class User {
 
     private String name;
 
-
+    @Embedded
+    private Contact contact;
 
     @ManyToMany
     private Set<Roles> role;
+
     @OneToMany(mappedBy = "user")
-    private Set<BancAcount> bancAcounts;
+    private Set<BankAccount> bankAccounts;
+
     private String pass;
 
     @Embeddable
-    private class Contact{
+    @Data
+    private class Contact {
         private String address;
         private String telNumber;
         private String email;
-
     }
-
 }

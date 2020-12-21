@@ -4,9 +4,9 @@ import am.bdg.intermediate_group_2_W_S.bank_transaction.e.RoleTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.Set;
 
 
 @Getter
@@ -19,8 +19,7 @@ public class Roles {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NaturalId
     @Enumerated(EnumType.STRING)
     private RoleTypes type;
-
-
 }

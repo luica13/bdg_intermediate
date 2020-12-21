@@ -11,16 +11,19 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-public class BancAcount {
+public class BankAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
 
-    @ManyToOne(targetEntity = User.class)
-    private  User user;
-    @OneToMany(mappedBy = "bancAcount")
+    @ManyToOne
+    private User user;
+
+    @OneToMany(mappedBy = "bankAccount")
     private Set<Transaction> transactions;
+
+    @Column(unique = true)
     private String accountNumber;
 
 }
