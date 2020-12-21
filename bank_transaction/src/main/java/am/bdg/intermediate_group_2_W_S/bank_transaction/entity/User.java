@@ -20,10 +20,10 @@ public class User {
     private String name;
 
 
-    //@ElementCollection(targetClass = Roles.class)
+
     @ManyToMany
     private Set<Roles> role;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "user")
     private Set<BancAcount> bancAcounts;
     private String pass;
 

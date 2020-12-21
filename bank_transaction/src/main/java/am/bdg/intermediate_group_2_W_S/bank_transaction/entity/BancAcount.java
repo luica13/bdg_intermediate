@@ -17,9 +17,9 @@ public class BancAcount {
     private long id;
 
 
-    @ManyToOne
+    @ManyToOne(targetEntity = User.class)
     private  User user;
-    @OneToMany(mappedBy = "id")
+    @OneToMany(mappedBy = "bancAcount")
     private Set<Transaction> transactions;
     private String accountNumber;
 
