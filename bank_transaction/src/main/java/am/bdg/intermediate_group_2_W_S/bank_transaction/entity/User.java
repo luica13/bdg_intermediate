@@ -24,7 +24,7 @@ public class User {
     private Contact contact;
 
     @ManyToMany
-    private Set<Roles> role;
+    private Set<Role> role;
 
     @OneToMany(mappedBy = "user")
     private Set<BankAccount> bankAccounts;

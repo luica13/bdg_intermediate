@@ -1,6 +1,6 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.entity;
 
-import am.bdg.intermediate_group_2_W_S.bank_transaction.e.RoleTypes;
+import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.RoleTypes;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +13,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Roles {
+@Table(name = "roles")
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
