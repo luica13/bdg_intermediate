@@ -1,11 +1,13 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
+@Builder
 public class UserDto {
 
     private long id;
@@ -18,11 +20,11 @@ public class UserDto {
 
     private Set<BankAccountDto> bankAccountDtos;
 
-    @JsonIgnore
     private String pass;
 
     @Data
-    private class ContactDto {
+    @NoArgsConstructor
+    public static class ContactDto {
         private String address;
         private String telNumber;
         private String email;

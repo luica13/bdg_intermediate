@@ -13,4 +13,5 @@ public class BankAccountDto {
     private Set<TransactionDto> transactionDtos;
 
     private String accountNumber;
+
 }

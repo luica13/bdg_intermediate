@@ -23,8 +23,8 @@ public class User {
     @Embedded
     private Contact contact;
 
-    @ManyToMany
-    private Set<Role> role;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "user")
     private Set<BankAccount> bankAccounts;
@@ -33,7 +33,7 @@ public class User {
 
     @Embeddable
     @Data
-    private class Contact {
+    public static class Contact {
         private String address;
         private String telNumber;
         private String email;

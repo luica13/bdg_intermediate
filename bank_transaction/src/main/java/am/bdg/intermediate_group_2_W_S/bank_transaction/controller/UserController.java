@@ -1,9 +1,7 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.controller;
 
 import am.bdg.intermediate_group_2_W_S.bank_transaction.dto.UserDto;
-import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.RoleTypes;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.service.UserService;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,19 +20,8 @@ public class UserController {
         return ResponseEntity.ok(userService.register(userDto));
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(userService.login(loginDto.getEmail(), loginDto.getPass()));
-    }
-
-    @PutMapping("/{id}/{role}")
-    public ResponseEntity<?> createRole(@PathVariable Long id, @PathVariable  String role) {
-        return ResponseEntity.ok(userService.changeRole(id,  role));
-    }
-
-    @Data
-    private class LoginDto {
-        private String email;
-        private String pass;
+    @PutMapping("/{id}/role")
+    public ResponseEntity<?> createRole(@PathVariable Long id, @RequestParam  String role) {
+        return ResponseEntity.ok(userService.changeRole(id, role));
     }
 }

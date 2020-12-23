@@ -1,6 +1,6 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.entity;
 
-import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.RoleTypes;
+import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.RoleType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,5 +22,5 @@ public class Role {
 
     @NaturalId
     @Enumerated(EnumType.STRING)
-    private RoleTypes type;
+    private RoleType type;
 }

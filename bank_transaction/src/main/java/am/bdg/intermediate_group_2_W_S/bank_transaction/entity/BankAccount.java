@@ -12,10 +12,10 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class BankAccount {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
 
     @ManyToOne
     private User user;

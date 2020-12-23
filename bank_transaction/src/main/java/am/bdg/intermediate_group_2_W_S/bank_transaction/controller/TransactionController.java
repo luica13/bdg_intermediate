@@ -1,7 +1,6 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.controller;
 
 import am.bdg.intermediate_group_2_W_S.bank_transaction.dto.TransactionDto;
-import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.TransactionStatus;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
