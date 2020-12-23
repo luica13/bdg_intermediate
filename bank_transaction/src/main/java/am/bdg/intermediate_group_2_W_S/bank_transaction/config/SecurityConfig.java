@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/api",  "/swagger-ui/**", "/api/user/register", "resources/webjars/**", "/swagger-resources/**", "/v2/api-docs").permitAll()
                 .antMatchers("/api/transaction/accept/**", "/api/account/**", "/api/user/**/role").hasRole("ADMIN")
-                .antMatchers("/api/transaction", "api/user/**/transaction", "/api/transaction/filter", "/api/transaction/**/filter", "/api/home").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/transaction", " api/user/**/transaction", "/api/transaction/filter", "/api/home").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl("/swagger-ui/")
