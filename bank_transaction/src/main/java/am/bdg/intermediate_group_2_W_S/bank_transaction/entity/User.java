@@ -44,6 +44,7 @@ public class User {
     public static class Contact {
         private String address;
         private String telNumber;
+        @Column(unique = true)
         private String email;
     }
 }

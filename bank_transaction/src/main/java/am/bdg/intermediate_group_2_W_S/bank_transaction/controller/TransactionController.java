@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 
 @RestController
@@ -50,8 +51,8 @@ public class TransactionController {
     }
 
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<?> cancel(@PathVariable Long id) {
-        return ResponseEntity.ok(service.cancel(id));
+    public ResponseEntity<?> cancel(@PathVariable Long id, Principal principal) {
+        return ResponseEntity.ok(service.cancel(id, principal));
     }
 
 }

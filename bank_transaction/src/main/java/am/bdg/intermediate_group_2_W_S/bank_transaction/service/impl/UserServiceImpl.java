@@ -10,6 +10,7 @@ import am.bdg.intermediate_group_2_W_S.bank_transaction.repository.UserRepositor
 import am.bdg.intermediate_group_2_W_S.bank_transaction.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
@@ -66,7 +67,7 @@ public class UserServiceImpl implements UserService {
                 .name(user.getName()).build();
     }
 
-
+    @Transactional
     @Override
     public UserDto changeRole(Long id, RoleType roleType) {
         Optional<Role> optionalRole = roleRepository.findRoleByType(roleType);
@@ -78,7 +79,6 @@ public class UserServiceImpl implements UserService {
         }
         User user = optionalUser.get();
         user.getRoles().add(role);
-        repository.save(user);
         return Common.buildUserDtoFromUser(user);
     }
 
