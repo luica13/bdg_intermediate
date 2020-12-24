@@ -66,14 +66,20 @@ public class UserServiceImpl implements UserService {
                 .name(user.getName()).build();
     }
 
-    @Override
-    public UserDto editRole(Role role) {
-        return null;
-    }
 
     @Override
-    public UserDto changeRole(Long id, String role) {
-        return null;
+    public UserDto changeRole(Long id, RoleType roleType) {
+        Optional<Role> optionalRole = roleRepository.findRoleByType(roleType);
+        Role role = optionalRole.orElseGet(() -> roleRepository.save(Role.builder().type(roleType).build()));
+
+        Optional<User> optionalUser = repository.findById(id);
+        if(!optionalUser.isPresent()){
+            throw new EntityNotFoundException(String.format("Transaction by id: %s not found.", id));
+        }
+        User user = optionalUser.get();
+        user.getRoles().add(role);
+        repository.save(user);
+        return Common.buildUserDtoFromUser(user);
     }
 
 }

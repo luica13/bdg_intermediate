@@ -1,6 +1,7 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.controller;
 
 import am.bdg.intermediate_group_2_W_S.bank_transaction.dto.UserDto;
+import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.RoleType;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
-    public ResponseEntity<?> createRole(@PathVariable Long id, @RequestParam  String role) {
-        return ResponseEntity.ok(userService.changeRole(id, role));
+    public ResponseEntity<?> createRole(@PathVariable Long id, @RequestParam RoleType roleType) {
+        return ResponseEntity.ok(userService.changeRole(id, roleType));
     }
 }

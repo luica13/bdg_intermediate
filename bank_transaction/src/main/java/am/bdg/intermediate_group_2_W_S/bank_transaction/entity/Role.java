@@ -25,5 +25,6 @@ public class Role {
 
     @NaturalId
     @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = false)
     private RoleType type;
 }

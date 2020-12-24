@@ -22,12 +22,13 @@ public class BankAccount {
 
 
     @ManyToOne
+    @Column(nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "bankAccount")
     private Set<Transaction> transactions;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String accountNumber;
 
     public BankAccount(User user, String accountNumber) {

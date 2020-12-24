@@ -24,16 +24,21 @@ public class Transaction {
     private long id;
 
     @ManyToOne
+    @Column(nullable = false)
     private BankAccount bankAccount;
 
+    @Column(nullable = false)
     private LocalDate createdDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TransactionType type;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TransactionStatus status;
 
+    @Column(nullable = false)
     private BigDecimal amount;//if(type=DEPOSIT)amount>0 else amount<0
 
 }
