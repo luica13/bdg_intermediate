@@ -11,6 +11,8 @@ import am.bdg.intermediate_group_2_W_S.bank_transaction.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -49,6 +51,20 @@ public class UserServiceImpl implements UserService {
                         .map(role1 -> RoleDto.builder().type(role1.getType()).build())
                         .collect(Collectors.toSet()))
                 .build();
+    }
+
+    @Override
+    public UserDto get(Long id) {
+        Optional<User> userOptional = repository.findById(id);
+        if (!userOptional.isPresent()) {
+            throw new EntityNotFoundException(String.format("User by id: %s not found.", id));
+        }
+        User user = userOptional.get();
+
+        UserDto userDto = UserDto.builder()
+                .id(id)
+                .name(user.getName()).build();
+        return userDto;
     }
 
     @Override
