@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
-                .role(user.getRoles().stream()
+                .roles(user.getRoles().stream()
                         .map(role1 -> RoleDto.builder().type(role1.getType()).build())
                         .collect(Collectors.toSet()))
                 .build();
@@ -61,10 +61,9 @@ public class UserServiceImpl implements UserService {
         }
         User user = userOptional.get();
 
-        UserDto userDto = UserDto.builder()
+        return UserDto.builder()
                 .id(id)
                 .name(user.getName()).build();
-        return userDto;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.service.impl;
 
 import am.bdg.intermediate_group_2_W_S.bank_transaction.dto.BankAccountDto;
-import am.bdg.intermediate_group_2_W_S.bank_transaction.dto.UserDto;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.BankAccount;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.User;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.repository.BankAccountRepository;
@@ -18,7 +17,7 @@ import java.util.Set;
 
 @Service
 public class BankAccountServiceImpl implements BankAccountService {
-    private final static String constantPrefix = "1245";
+    private final static String CONSTANT_PREFIX = "1245";
     private final BankAccountRepository bankAccountRepository;
     private final UserRepository userRepository;
 
@@ -37,24 +36,18 @@ public class BankAccountServiceImpl implements BankAccountService {
         User user = userOptional.get();
         String accountNumber = generateAccountNumber(user);
         BankAccount bankAccount = bankAccountRepository.save(new BankAccount(user, accountNumber));
-        BankAccountDto bankAccountDto = BankAccountDto.builder()
-                .userDto(UserDto.builder()
-                        .id(userId)
-                        .name(user.getName()).build())
-                .accountNumber(bankAccount.getAccountNumber())
-                .id(bankAccount.getId()).build();
-        return bankAccountDto;
+        return Common.buildBankAccountDtoFromBankAccount(bankAccount);
     }
 
     private String generateAccountNumber(User user) {
         String stringFromUserId = String.format("%1$" + 8 + "s", String.valueOf(user.getId() % 100000000)).replace(' ', '0');
-        String returnString = constantPrefix + stringFromUserId;
+        String returnString = CONSTANT_PREFIX + stringFromUserId;
         Set<BankAccount> bankAccounts = user.getBankAccounts();
         if (bankAccounts.size() == 0) {
             returnString = returnString + "1001";
         } else {
             List<String> accountNumberList = new ArrayList<>();
-            bankAccounts.stream().map(bankAccount -> accountNumberList.add(bankAccount.getAccountNumber()));
+            bankAccounts.forEach(bankAccount -> accountNumberList.add(bankAccount.getAccountNumber()));
             accountNumberList.sort(String::compareTo);
             String lastAccountNumber = accountNumberList.get(accountNumberList.size() - 1);
             returnString = returnString + (Integer.valueOf(lastAccountNumber.substring(lastAccountNumber.length() - 4)) + 1);
