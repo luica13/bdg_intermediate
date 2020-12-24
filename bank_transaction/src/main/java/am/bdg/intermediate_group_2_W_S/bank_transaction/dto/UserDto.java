@@ -30,10 +30,5 @@ public class UserDto {
         private String telNumber;
         private String email;
 
-//        public ContactDto(User.Contact contact) {
-//            this.address = contact.getAddress();
-//            this.telNumber = contact.getTelNumber();
-//            this.email = contact.getEmail();
-//        }
     }
 }

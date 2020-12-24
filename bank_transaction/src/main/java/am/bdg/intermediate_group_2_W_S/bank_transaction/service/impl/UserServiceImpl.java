@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
         Role role = optionalRole.orElseGet(() -> roleRepository.save(Role.builder().type(roleType).build()));
 
         Optional<User> optionalUser = repository.findById(id);
-        if(!optionalUser.isPresent()){
+        if (!optionalUser.isPresent()) {
             throw new EntityNotFoundException(String.format("Transaction by id: %s not found.", id));
         }
         User user = optionalUser.get();

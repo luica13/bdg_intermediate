@@ -35,27 +35,27 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public boolean accept(Long id) {
-        Optional<Transaction> optionalTransaction = transactionRepository.findById(id) ;
-        if (!optionalTransaction.isPresent()){
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+        if (!optionalTransaction.isPresent()) {
             throw new EntityNotFoundException(String.format("Transaction by id: %s not found.", id));
         }
         Transaction transaction = optionalTransaction.get();
         TransactionStatus transactionStatus = transaction.getStatus();
 
-        if(!transactionStatus.equals(TransactionStatus.PENDING)){
+        if (!transactionStatus.equals(TransactionStatus.PENDING)) {
             throw new IllegalArgumentException(String.format("Transaction status is: %s, but must be PENDING", transactionStatus.name()));
         }
         boolean retStatus = true;
         transaction.setStatus(TransactionStatus.ACCEPTED);
-        if (TransactionType.WITHDRAWAL.equals(transaction.getType())){
+        if (TransactionType.WITHDRAWAL.equals(transaction.getType())) {
             long userId = transaction.getBankAccount().getUser().getId();
             BigDecimal sum = transactionRepository.calculateSumOfUserId(userId);
-            if(sum != null) {
+            if (sum != null) {
                 if (sum.compareTo(transaction.getAmount()) < 0) {
                     transaction.setStatus(TransactionStatus.CANCELED);
                     retStatus = false;
                 }
-            }else {
+            } else {
                 transaction.setStatus(TransactionStatus.CANCELED);
                 retStatus = false;
             }
@@ -69,7 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public TransactionDto create(TransactionDto transactionDto) {
         transactionDto.setStatus(TransactionStatus.PENDING);
-        if (TransactionType.WITHDRAWAL.equals(transactionDto.getType())){
+        if (TransactionType.WITHDRAWAL.equals(transactionDto.getType())) {
             transactionDto.setAmount(transactionDto.getAmount().multiply(BigDecimal.valueOf(-1)));
         }
         Transaction transaction = transactionRepository.save(Common.buildTransactionFromTransactionDto(transactionDto));
@@ -101,31 +101,31 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public boolean cancel(Long id, Principal principal) {
 
-        Optional<Transaction> optionalTransaction = transactionRepository.findById(id) ;
-        if (!optionalTransaction.isPresent()){
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+        if (!optionalTransaction.isPresent()) {
             throw new EntityNotFoundException(String.format("Transaction by id: %s not found.", id));
         }
 
-        String email = ((UserDetails)principal).getUsername();
+        String email = ((UserDetails) principal).getUsername();
         Optional<User> optionalUser = userRepository.findByEmail(email);
 
-        if (!optionalUser.isPresent()){
+        if (!optionalUser.isPresent()) {
             throw new EntityNotFoundException(String.format("User by email: %s not found.", email));
         }
         User user = optionalUser.get();
         Transaction transaction = optionalTransaction.get();
         TransactionStatus transactionStatus = transaction.getStatus();
-        if (TransactionStatus.CANCELED.equals(transactionStatus)){
+        if (TransactionStatus.CANCELED.equals(transactionStatus)) {
             throw new IllegalArgumentException("Transaction status is already CANCELED");
         }
         boolean retStatus = true;
-        if(isAdmin(user)){
+        if (isAdmin(user)) {
             transaction.setStatus(TransactionStatus.CANCELED);
-        }else {
-            if (!user.equals(transaction.getBankAccount().getUser())){
+        } else {
+            if (!user.equals(transaction.getBankAccount().getUser())) {
                 throw new IllegalArgumentException("User can cancel only theirs transactions");
             } else {
-                if(TransactionStatus.PENDING.equals(transactionStatus)) {
+                if (TransactionStatus.PENDING.equals(transactionStatus)) {
                     transaction.setStatus(TransactionStatus.CANCELED);
                 } else {
                     retStatus = false;
@@ -144,10 +144,10 @@ public class TransactionServiceImpl implements TransactionService {
                 .stream().map(Common::buildTransactionDtoFromTransaction).collect(Collectors.toList());
     }
 
-    private boolean isAdmin(User user){
-        for (Role role:
+    private boolean isAdmin(User user) {
+        for (Role role :
                 user.getRoles()) {
-            if(RoleType.ROLE_ADMIN.equals(role.getType())){
+            if (RoleType.ROLE_ADMIN.equals(role.getType())) {
                 return true;
             }
         }

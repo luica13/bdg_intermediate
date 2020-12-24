@@ -23,8 +23,8 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+
     @ManyToOne
-    @Column(nullable = false)
     private BankAccount bankAccount;
 
     @Column(nullable = false)

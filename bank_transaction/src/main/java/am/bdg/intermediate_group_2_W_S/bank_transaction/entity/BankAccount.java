@@ -20,9 +20,7 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
     @ManyToOne
-    @Column(nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "bankAccount")
