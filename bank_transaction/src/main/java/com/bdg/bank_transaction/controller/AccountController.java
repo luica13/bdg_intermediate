@@ -1,11 +1,7 @@
 package com.bdg.bank_transaction.controller;
 
-
 import java.util.List;
-
 import javax.validation.Valid;
-
-
 import com.bdg.bank_transaction.exception.ResourceNotFoundException;
 import com.bdg.bank_transaction.model.Account;
 import com.bdg.bank_transaction.operations.DepositUseCase;
@@ -13,8 +9,6 @@ import com.bdg.bank_transaction.operations.WithdrawUseCase;
 import com.bdg.bank_transaction.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-
 
 @RestController
 @RequestMapping(produces = {"application/json"})
@@ -68,7 +62,6 @@ public class AccountController {
 		Account updatedAccount = accountRepository.save(account);
 		return updatedAccount;
 	}
-	
 
 	public AccountController() {
 	}
