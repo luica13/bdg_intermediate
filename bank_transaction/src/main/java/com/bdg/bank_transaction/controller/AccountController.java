@@ -41,6 +41,33 @@ public class AccountController {
 		return accountRepository.findById(accountId)
 				.orElseThrow(() -> new ResourceNotFoundException("Account", "id", accountId));
 	}
+
+	@RequestMapping(value = "api/users/register",method = RequestMethod.POST)
+	public Account createAccount(@Valid @RequestBody Account account) {
+		return accountRepository.save(account);
+	}
+
+	@PutMapping(value = "api/transaction/deposit")
+	public Account makeDeposit(@PathVariable(value = "id") Long accountId, @RequestParam("amount") double amount) {
+
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new ResourceNotFoundException("Account", "id", accountId));
+
+		account.setBalance(account.getBalance() + amount);
+		Account updatedAccount = accountRepository.save(account);
+		return updatedAccount;
+	}
+
+	@PostMapping(value = "api/transaction/withdraw")
+	public Account makeWithdraw(@PathVariable(value = "id") Long accountId, @RequestParam("amount") double amount) {
+
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new ResourceNotFoundException("Account", "id", accountId));
+
+		account.setBalance(account.getBalance() - amount);
+		Account updatedAccount = accountRepository.save(account);
+		return updatedAccount;
+	}
 	
 
 	public AccountController() {
