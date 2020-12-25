@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
-    public ResponseEntity<?> createRole(@PathVariable Long id, @RequestParam RoleType roleType) {
+    public ResponseEntity<?> addRole(@PathVariable Long id, @RequestParam RoleType roleType) {
         return ResponseEntity.ok(userService.changeRole(id, roleType));
     }
 }

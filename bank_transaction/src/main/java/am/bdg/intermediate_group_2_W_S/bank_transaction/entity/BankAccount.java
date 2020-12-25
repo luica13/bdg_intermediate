@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Set;
 
 @Builder
@@ -28,6 +29,9 @@ public class BankAccount {
 
     @Column(unique = true, nullable = false)
     private String accountNumber;
+
+    @Column(nullable = false, columnDefinition = "Decimal(18,2) default '0.00'", scale = 18, precision = 2)
+    private BigDecimal balance;
 
     public BankAccount(User user, String accountNumber) {
         this.user = user;

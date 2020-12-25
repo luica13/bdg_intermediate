@@ -1,9 +1,11 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.controller;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -18,7 +20,8 @@ public class HomeController {
     }
 
     @GetMapping("/api/home")
-    public String home(Principal principal) {
-        return String.format("Welcome to Bank Transaction home %s your roles is %s.", principal.getName().toUpperCase(), ((Authentication) principal).getAuthorities());
+    public String home(@ApiIgnore Principal principal) {
+        return String.format("Welcome to Bank Transaction home %s your roles is %s.",
+                principal.getName().toUpperCase(), ((Authentication) principal).getAuthorities());
     }
 }

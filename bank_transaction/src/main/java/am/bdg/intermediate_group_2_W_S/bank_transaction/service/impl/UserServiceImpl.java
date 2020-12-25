@@ -35,9 +35,8 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setName(userDto.getName());
         user.setPass(encoder.encode(userDto.getPass()));
-        Role role = new Role();
-        role.setType(RoleType.ROLE_USER);
-        role = roleRepository.save(role);
+        Optional<Role> optionalRole = roleRepository.findRoleByType(RoleType.ROLE_USER);
+        Role role = optionalRole.orElseGet(() -> roleRepository.save(new Role(0L, RoleType.ROLE_USER)));
         user.setRoles(Stream.of(role).collect(Collectors.toSet()));
         UserDto.ContactDto contactDto = userDto.getContactDto();
         user.setContact(new User.Contact());
@@ -45,11 +44,20 @@ public class UserServiceImpl implements UserService {
         user.getContact().setEmail(contactDto.getEmail());
         user.getContact().setTelNumber(contactDto.getTelNumber());
         user = repository.save(user);
+        User.Contact contact = user.getContact();
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
+                .contactDto(UserDto.ContactDto.builder()
+                        .email(contact.getEmail())
+                        .address(contact.getAddress())
+                        .telNumber(contact.getTelNumber())
+                        .build())
                 .roles(user.getRoles().stream()
-                        .map(role1 -> RoleDto.builder().type(role1.getType()).build())
+                        .map(r -> RoleDto.builder()
+                                .id(r.getId())
+                                .type(r.getType())
+                                .build())
                         .collect(Collectors.toSet()))
                 .build();
     }

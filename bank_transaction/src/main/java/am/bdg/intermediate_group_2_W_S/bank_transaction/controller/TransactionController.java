@@ -6,6 +6,7 @@ import am.bdg.intermediate_group_2_W_S.bank_transaction.service.TransactionServi
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -36,7 +37,8 @@ public class TransactionController {
 
     @GetMapping("/{id}/filter")
     public ResponseEntity<?> getTransactionsByCreatedDate(@PathVariable Long id,
-                                                          @RequestParam LocalDate date) {
+                                                          @RequestParam
+                                                          @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return ResponseEntity.ok(service.getTransactionByCreatedDay(id, date));
     }
 
@@ -51,7 +53,7 @@ public class TransactionController {
     }
 
     @PatchMapping("/cancel/{id}")
-    public ResponseEntity<?> cancel(@PathVariable Long id, Principal principal) {
+    public ResponseEntity<?> cancel(@PathVariable Long id, @ApiIgnore Principal principal) {
         return ResponseEntity.ok(service.cancel(id, principal));
     }
 
