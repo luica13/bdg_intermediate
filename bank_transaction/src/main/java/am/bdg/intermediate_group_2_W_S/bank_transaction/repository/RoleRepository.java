@@ -1,12 +1,10 @@
 package am.bdg.intermediate_group_2_W_S.bank_transaction.repository;
 
 import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.Role;
-import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.Transaction;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.enums.RoleType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

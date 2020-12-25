@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.Set;
 
 @Data
@@ -33,6 +32,5 @@ public class UserDto {
         private String address;
         private String telNumber;
         private String email;
-
     }
 }

@@ -34,7 +34,7 @@ public class TransactionDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private TransactionStatus status;
 
-    @Digits(integer = 16, fraction=2)
+    @Digits(integer = 16, fraction = 2)
     private BigDecimal amount;//if(type=DEPOSIT)amount>0 else amount<0
 
 }

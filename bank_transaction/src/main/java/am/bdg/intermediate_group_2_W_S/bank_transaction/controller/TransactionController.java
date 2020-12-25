@@ -56,5 +56,4 @@ public class TransactionController {
     public ResponseEntity<?> cancel(@PathVariable Long id, @ApiIgnore Principal principal) {
         return ResponseEntity.ok(service.cancel(id, principal));
     }
-
 }

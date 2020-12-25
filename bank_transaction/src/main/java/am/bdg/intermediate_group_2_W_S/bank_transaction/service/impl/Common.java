@@ -70,7 +70,6 @@ public class Common {
     public static BankAccountDto buildBankAccountDtoFromBankAccount(BankAccount bankAccount) {
         return BankAccountDto.builder()
                 .userDto(Common.buildUserDtoFromUser(bankAccount.getUser()))
-                //.balance(bankAccount.getBalance())
                 .accountNumber(bankAccount.getAccountNumber())
                 .id(bankAccount.getId()).build();
     }
@@ -78,7 +77,6 @@ public class Common {
     public static BankAccount buildBankAccountFromBankAccountDto(BankAccountDto bankAccountDto) {
         return BankAccount.builder()
                 .user(Common.buildUserFromUserDto(bankAccountDto.getUserDto()))
-                //.balance(bankAccountDto.getBalance())
                 .accountNumber(bankAccountDto.getAccountNumber())
                 .id(bankAccountDto.getId()).build();
     }

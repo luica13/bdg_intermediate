@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface TransactionRepository extends CrudRepository<Transaction,Long> {
+public interface TransactionRepository extends CrudRepository<Transaction, Long> {
     @Query("select T from Transaction T where T.bankAccount.user.id = :userId")
     List<Transaction> findAllByUserId(Long userId);
 

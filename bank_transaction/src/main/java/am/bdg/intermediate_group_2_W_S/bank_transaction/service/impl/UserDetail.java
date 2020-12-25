@@ -25,7 +25,7 @@ public class UserDetail implements UserDetailsService {
         Optional<User> optionalUser = repo.findByEmail(username);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return new org.springframework.security.core.userdetails.User(user.getName(), user.getPass(),
+            return new org.springframework.security.core.userdetails.User(user.getContact().getEmail(), user.getPass(),
                     user.getRoles().stream().map(Role::getType).collect(Collectors.toSet()));
         } else throw new UsernameNotFoundException(String.format("user by email: %s not  found", username));
     }

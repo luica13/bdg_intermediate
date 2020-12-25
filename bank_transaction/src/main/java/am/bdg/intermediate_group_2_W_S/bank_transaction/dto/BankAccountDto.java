@@ -19,7 +19,7 @@ public class BankAccountDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String accountNumber;
 
-    @Digits(integer = 16, fraction=2)
+    @Digits(integer = 16, fraction = 2)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private BigDecimal balance;
 }

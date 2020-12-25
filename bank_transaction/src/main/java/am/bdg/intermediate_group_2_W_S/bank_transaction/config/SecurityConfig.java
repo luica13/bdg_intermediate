@@ -5,15 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.security.web.firewall.HttpStatusRequestRejectedHandler;
 import org.springframework.security.web.firewall.RequestRejectedHandler;
-import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/api",  "/swagger-ui/**", "/api/user/register", "resources/webjars/**", "/swagger-resources/**", "/v2/api-docs").permitAll()
                 .antMatchers("/api/transaction/accept/**", "/api/account/**", "/api/user/**/role").hasRole("ADMIN")
-                .antMatchers("/api/transaction", " api/user/**/transaction", "/api/transaction/filter", "/api/home").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/api/transaction", "/api/transaction/cancel/**", "api/user/**/transaction", "/api/transaction/filter", "/api/transaction/**/filter", "/api/home").hasAnyRole("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl("/swagger-ui/")
