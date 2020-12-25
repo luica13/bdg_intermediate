@@ -15,7 +15,7 @@ public interface TransactionRepository extends CrudRepository<Transaction,Long> 
     @Query("select T from Transaction T where T.bankAccount.user.id = :userId")
     List<Transaction> findAllByUserId(Long userId);
 
-    @Query("select SUM (T.amount) from Transaction T where T.bankAccount.user.id = :userId group by T.bankAccount.user.id")
+    @Query("select SUM (T.amount) from Transaction T where T.status = 'ACCEPTED' and T.bankAccount.user.id = :userId group by T.bankAccount.user.id")
     BigDecimal calculateSumOfUserId(Long userId);
 
     List<Transaction> findAllByCreatedDateAndBankAccount_User_Id(LocalDate createdDate, long bankAccount_user_id);

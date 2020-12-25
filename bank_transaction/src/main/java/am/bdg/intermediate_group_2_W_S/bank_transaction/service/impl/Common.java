@@ -9,6 +9,7 @@ import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.Role;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.Transaction;
 import am.bdg.intermediate_group_2_W_S.bank_transaction.entity.User;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,12 +26,10 @@ public class Common {
     }
 
     public static Transaction buildTransactionFromTransactionDto(TransactionDto transactionDto) {
-        BankAccountDto bankAccountDto = transactionDto.getBankAccountDto();
         return Transaction.builder()
-                .bankAccount(buildBankAccountFromBankAccountDto(bankAccountDto))
                 .status(transactionDto.getStatus())
                 .type(transactionDto.getType())
-                .createdDate(transactionDto.getCreatedDate())
+                .createdDate(LocalDate.now())
                 .id(transactionDto.getId())
                 .amount(transactionDto.getAmount()).build();
     }
@@ -71,6 +70,7 @@ public class Common {
     public static BankAccountDto buildBankAccountDtoFromBankAccount(BankAccount bankAccount) {
         return BankAccountDto.builder()
                 .userDto(Common.buildUserDtoFromUser(bankAccount.getUser()))
+                //.balance(bankAccount.getBalance())
                 .accountNumber(bankAccount.getAccountNumber())
                 .id(bankAccount.getId()).build();
     }
@@ -78,6 +78,7 @@ public class Common {
     public static BankAccount buildBankAccountFromBankAccountDto(BankAccountDto bankAccountDto) {
         return BankAccount.builder()
                 .user(Common.buildUserFromUserDto(bankAccountDto.getUserDto()))
+                //.balance(bankAccountDto.getBalance())
                 .accountNumber(bankAccountDto.getAccountNumber())
                 .id(bankAccountDto.getId()).build();
     }

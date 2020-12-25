@@ -39,6 +39,6 @@ public class Transaction {
     private TransactionStatus status;
 
     @Column(nullable = false)
-    private BigDecimal amount;//if(type=DEPOSIT)amount>0 else amount<0
+    private BigDecimal amount = BigDecimal.ZERO;//if(type=DEPOSIT)amount>0 else amount<0
 
 }
