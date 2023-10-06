@@ -12,6 +12,7 @@ public class Main4 {
                 counter.increment();
             }
         });
+
         Thread runThread2 = new Thread(() -> {
             for (int i = 0; i < 1000; i++) {
                 counter.increment();
@@ -21,6 +22,7 @@ public class Main4 {
         runThread.start();
         runThread2.start();
 
+        
         try {
             Thread.sleep(10L);
         } catch (InterruptedException e) {
